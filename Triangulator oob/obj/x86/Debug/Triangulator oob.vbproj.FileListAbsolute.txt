@@ -1,0 +1,44 @@
+F:\MyProject\Triangulator oob\Triangulator oob\Triangulator oob\obj\x86\Debug\ResolveAssemblyReference.cache
+F:\MyProject\Triangulator oob\Triangulator oob\Triangulator oob\obj\x86\Debug\Triangulator_oob.Form1.resources
+F:\MyProject\Triangulator oob\Triangulator oob\Triangulator oob\obj\x86\Debug\Triangulator_oob.Resources.resources
+F:\MyProject\Triangulator oob\Triangulator oob\Triangulator oob\obj\x86\Debug\GenerateResource.read.1.tlog
+F:\MyProject\Triangulator oob\Triangulator oob\Triangulator oob\obj\x86\Debug\GenerateResource.write.1.tlog
+F:\MyProject\Triangulator oob\Triangulator oob\Triangulator oob\bin\Debug\Triangulator oob.exe
+F:\MyProject\Triangulator oob\Triangulator oob\Triangulator oob\bin\Debug\Triangulator oob.pdb
+F:\MyProject\Triangulator oob\Triangulator oob\Triangulator oob\bin\Debug\Triangulator oob.xml
+F:\MyProject\Triangulator oob\Triangulator oob\Triangulator oob\obj\x86\Debug\Triangulator oob.exe
+F:\MyProject\Triangulator oob\Triangulator oob\Triangulator oob\obj\x86\Debug\Triangulator oob.xml
+F:\MyProject\Triangulator oob\Triangulator oob\Triangulator oob\obj\x86\Debug\Triangulator oob.pdb
+F:\MyProject\Triangulator oob\Triangulator oob\Triangulator oob\bin\Debug\OsmXmlTreeView.dll
+F:\MyProject\Triangulator oob\Triangulator oob\Triangulator oob\bin\Debug\OsmXmlTreeView.pdb
+F:\MyProject\Triangulator oob\Triangulator oob\Triangulator oob\bin\Debug\OsmXmlTreeView.xml
+C:\Users\Osman\Documents\Beylikdüzü 2012\Triangulator oob\Triangulator oob\obj\x86\Debug\Triangulator oob.exe
+C:\Users\Osman\Documents\Beylikdüzü 2012\Triangulator oob\Triangulator oob\obj\x86\Debug\Triangulator oob.xml
+C:\Users\Osman\Documents\Beylikdüzü 2012\Triangulator oob\Triangulator oob\obj\x86\Debug\Triangulator oob.pdb
+C:\Users\Osman\Documents\Visual Studio 2010\Triangulator oob\Triangulator oob\obj\x86\Debug\Triangulator oob.exe
+C:\Users\Osman\Documents\Visual Studio 2010\Triangulator oob\Triangulator oob\obj\x86\Debug\Triangulator oob.xml
+C:\Users\Osman\Documents\Visual Studio 2010\Triangulator oob\Triangulator oob\obj\x86\Debug\Triangulator oob.pdb
+F:\MyProject\Triangulator oob\Triangulator oob\bin\Debug\Triangulator oob.exe
+F:\MyProject\Triangulator oob\Triangulator oob\bin\Debug\Triangulator oob.pdb
+F:\MyProject\Triangulator oob\Triangulator oob\bin\Debug\Triangulator oob.xml
+F:\MyProject\Triangulator oob\Triangulator oob\bin\Debug\OsmXmlTreeView.dll
+F:\MyProject\Triangulator oob\Triangulator oob\bin\Debug\OsmXmlTreeView.pdb
+F:\MyProject\Triangulator oob\Triangulator oob\bin\Debug\OsmXmlTreeView.xml
+F:\MyProject\Triangulator oob\Triangulator oob\obj\x86\Debug\Triangulator_oob.Triangulator.Form1.resources
+F:\MyProject\Triangulator oob\Triangulator oob\obj\x86\Debug\Triangulator_oob.Resources.resources
+F:\MyProject\Triangulator oob\Triangulator oob\obj\x86\Debug\Triangulator oob.exe
+F:\MyProject\Triangulator oob\Triangulator oob\obj\x86\Debug\Triangulator oob.xml
+F:\MyProject\Triangulator oob\Triangulator oob\obj\x86\Debug\Triangulator oob.pdb
+C:\Users\Osman\Documents\Visual Studio 2010\Triangulator oob\Triangulator oob\bin\Debug\Triangulator oob.exe
+C:\Users\Osman\Documents\Visual Studio 2010\Triangulator oob\Triangulator oob\bin\Debug\Triangulator oob.pdb
+C:\Users\Osman\Documents\Visual Studio 2010\Triangulator oob\Triangulator oob\bin\Debug\Triangulator oob.xml
+C:\Users\Osman\Documents\Visual Studio 2010\Triangulator oob\Triangulator oob\bin\Debug\OsmXmlTreeView.dll
+C:\Users\Osman\Documents\Visual Studio 2010\Triangulator oob\Triangulator oob\bin\Debug\OsmXmlTreeView.pdb
+C:\Users\Osman\Documents\Visual Studio 2010\Triangulator oob\Triangulator oob\bin\Debug\OsmXmlTreeView.xml
+C:\Users\Osman\Documents\Visual Studio 2010\Triangulator oob\Triangulator oob\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\Osman\Documents\Visual Studio 2010\Triangulator oob\Triangulator oob\obj\x86\Debug\Triangulator_oob.Triangulator.Form1.resources
+C:\Users\Osman\Documents\Visual Studio 2010\Triangulator oob\Triangulator oob\obj\x86\Debug\Triangulator_oob.Resources.resources
+C:\Users\Osman\Documents\Visual Studio 2010\Triangulator oob\Triangulator oob\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\Users\Osman\Documents\Visual Studio 2010\Triangulator oob\Triangulator oob\obj\x86\Debug\GenerateResource.write.1.tlog
+F:\MyProject\Triangulator oob\Triangulator oob\obj\x86\Debug\Triangulator oob.vbprojResolveAssemblyReference.cache
+F:\MyProject\Triangulator oob\Triangulator oob\obj\x86\Debug\Triangulator oob.vbproj.GenerateResource.Cache

@@ -42,3 +42,18 @@ C:\Users\Osman\Documents\Visual Studio 2010\Triangulator oob\Triangulator oob\ob
 C:\Users\Osman\Documents\Visual Studio 2010\Triangulator oob\Triangulator oob\obj\x86\Debug\GenerateResource.write.1.tlog
 F:\MyProject\Triangulator oob\Triangulator oob\obj\x86\Debug\Triangulator oob.vbprojResolveAssemblyReference.cache
 F:\MyProject\Triangulator oob\Triangulator oob\obj\x86\Debug\Triangulator oob.vbproj.GenerateResource.Cache
+D:\MyProject\Triangulator ZSorter\Triangulator oob\bin\Debug\Triangulator oob.exe
+D:\MyProject\Triangulator ZSorter\Triangulator oob\bin\Debug\Triangulator oob.pdb
+D:\MyProject\Triangulator ZSorter\Triangulator oob\bin\Debug\Triangulator oob.xml
+D:\MyProject\Triangulator ZSorter\Triangulator oob\bin\Debug\OsmXmlTreeView.dll
+D:\MyProject\Triangulator ZSorter\Triangulator oob\bin\Debug\OsmXmlTreeView.pdb
+D:\MyProject\Triangulator ZSorter\Triangulator oob\bin\Debug\OsmXmlTreeView.xml
+D:\MyProject\Triangulator ZSorter\Triangulator oob\obj\x86\Debug\Triangulator oob.vbproj.AssemblyReference.cache
+D:\MyProject\Triangulator ZSorter\Triangulator oob\obj\x86\Debug\Triangulator_oob.Triangulator.Form1.resources
+D:\MyProject\Triangulator ZSorter\Triangulator oob\obj\x86\Debug\Triangulator_oob.Resources.resources
+D:\MyProject\Triangulator ZSorter\Triangulator oob\obj\x86\Debug\Triangulator oob.vbproj.GenerateResource.cache
+D:\MyProject\Triangulator ZSorter\Triangulator oob\obj\x86\Debug\Triangulator oob.vbproj.CoreCompileInputs.cache
+D:\MyProject\Triangulator ZSorter\Triangulator oob\obj\x86\Debug\Triangulator oob.vbproj.CopyComplete
+D:\MyProject\Triangulator ZSorter\Triangulator oob\obj\x86\Debug\Triangulator oob.exe
+D:\MyProject\Triangulator ZSorter\Triangulator oob\obj\x86\Debug\Triangulator oob.xml
+D:\MyProject\Triangulator ZSorter\Triangulator oob\obj\x86\Debug\Triangulator oob.pdb

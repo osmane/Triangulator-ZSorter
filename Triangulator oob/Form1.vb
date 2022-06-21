@@ -116,7 +116,7 @@ Namespace Triangulator
         Dim gr As System.Drawing.Graphics
         Dim SelectedPolygonNo As Integer = -1
         Dim PolySelectMode As Boolean = False
-        Dim Elpen As Pen = New Pen(Color.Blue, 1)
+        Dim Elpen As New Pen(Color.Blue, 1)
         Dim GidenP1, GelenP1 As PointF
         Dim OrtaP As New PointF
         Dim tmpArray(2) As PointF

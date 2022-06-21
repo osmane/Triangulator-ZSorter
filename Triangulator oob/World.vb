@@ -389,11 +389,9 @@
             '    Beep()
 
             'End If
-            For AralikSay = 0 To SonBasilanNokta.AralikList.Count - 1
-                If SonBasilanNokta.AralikList.Item(AralikSay).Disabled = False Then
-
-
-                    If PointKoord = TotalNoktaList(SonBasilanNokta.AralikList.Item(AralikSay).GidenUcNo).KendiYeri Or _
+            For AralikSay = 0 To SonBasilanNokta.AralikList.FindAll(Function(Aralik) Aralik.Disabled = False).Count - 1
+                'If SonBasilanNokta.AralikList.Item(AralikSay).Disabled = False Then
+                If PointKoord = TotalNoktaList(SonBasilanNokta.AralikList.Item(AralikSay).GidenUcNo).KendiYeri Or
                        PointKoord = TotalNoktaList(SonBasilanNokta.AralikList.Item(AralikSay).GelenUcNo).KendiYeri Then
                         If ClosingPointNo > 0 Then
                             EskiCiz = False
@@ -539,9 +537,9 @@
                                     TotalUcgenList.Add(TmpUcgenList.Item(2))
                                     If PolygonList(PolygonList.Count - 1).PolyNoktaList.Count > 1 Then
                                         For KenarSay = 1 To 2
-                                            If (TotalUcgenList(TotalUcgenList.Count - 1).KenarList(KenarSay).Uc1NoktaNo = TotalNoktaList.Count - 1 And _
-                                                TotalUcgenList(TotalUcgenList.Count - 1).KenarList(KenarSay).Uc2NoktaNo = TotalNoktaList.Count - 2) Or _
-                                               (TotalUcgenList(TotalUcgenList.Count - 1).KenarList(KenarSay).Uc2NoktaNo = TotalNoktaList.Count - 1 And _
+                                            If (TotalUcgenList(TotalUcgenList.Count - 1).KenarList(KenarSay).Uc1NoktaNo = TotalNoktaList.Count - 1 And
+                                                TotalUcgenList(TotalUcgenList.Count - 1).KenarList(KenarSay).Uc2NoktaNo = TotalNoktaList.Count - 2) Or
+                                               (TotalUcgenList(TotalUcgenList.Count - 1).KenarList(KenarSay).Uc2NoktaNo = TotalNoktaList.Count - 1 And
                                                 TotalUcgenList(TotalUcgenList.Count - 1).KenarList(KenarSay).Uc1NoktaNo = TotalNoktaList.Count - 2) Then
                                                 TotalUcgenList(TotalUcgenList.Count - 1).KenarList(KenarSay).PolyKenar = True
                                                 TotalUcgenList(TotalUcgenList.Count - 1).KenarList(KenarSay).DisKenar = True
@@ -924,7 +922,7 @@
                             Exit For
                         End If
                     End If
-                End If
+                'End If
             Next
 
             '{
@@ -1073,7 +1071,7 @@
             Dim SonrakiKenar As Kenar
             Dim DahaSonrakiKenar As Kenar
             Dim OncekiKenar As Kenar
-            Dim BuyukAci, Darlik As Double
+            Dim BuyukAci As Double
             Dim KucukAci As Double
             Dim BakisAcisi As Double
             Dim EksiMod, EarSonUcgen As Integer
@@ -1111,14 +1109,13 @@
                 BuyukAci = AciBul(TotalNoktaList(SeciliKenar.Uc1NoktaNo).KendiYeri, TotalNoktaList(SeciliKenar.Uc2NoktaNo).KendiYeri)
                 BakisAcisi = AciBul(TotalNoktaList(SeciliKenar.Uc1NoktaNo).KendiYeri, TotalNoktaList(SonrakiKenar.Uc2NoktaNo).KendiYeri)
 
-                Dim EarAngle, invEarangle As Double
+                Dim EarAngle As Double
                 EarAngle = GetAngle(TotalNoktaList(SonrakiKenar.Uc2NoktaNo).KendiYeri, TotalNoktaList(SeciliKenar.Uc2NoktaNo).KendiYeri, TotalNoktaList(SeciliKenar.Uc1NoktaNo).KendiYeri)
                 'testcode start
                 'invEarangle = GetAngle(TotalNoktaList(SeciliKenar.Uc1NoktaNo).KendiYeri, TotalNoktaList(SeciliKenar.Uc2NoktaNo).KendiYeri, TotalNoktaList(SonrakiKenar.Uc2NoktaNo).KendiYeri)
                 'testcode finish
                 If BuyukAci < KucukAci Then BuyukAci = BuyukAci + 360
                 If BakisAcisi < KucukAci Then BakisAcisi = BakisAcisi + 360
-
 
                 Dim Kenar1 As New Kenar
                 Dim Kenar2 As New Kenar

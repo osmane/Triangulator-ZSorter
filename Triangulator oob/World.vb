@@ -2583,8 +2583,6 @@
                 End If
             End If
 
-
-
             'BagKenari2.KenarPolyNo = bagBakanNokta.NoktaPolyNo
             'BagKenari2.PolyKenar = True
             'TotalNoktaList(BagKenari2.KarsiNoktaNo).AralikList(BagKenari2.KarsiNoktaAralikNo).Disabled = True

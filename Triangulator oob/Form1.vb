@@ -116,7 +116,7 @@ Namespace Triangulator
         Dim gr As System.Drawing.Graphics
         Dim SelectedPolygonNo As Integer = -1
         Dim PolySelectMode As Boolean = False
-        Dim Elpen As New Pen(Color.Blue, 1)
+        Dim Elpen As Pen = New Pen(Color.Blue, 1)
         Dim GidenP1, GelenP1 As PointF
         Dim OrtaP As New PointF
         Dim tmpArray(2) As PointF
@@ -417,7 +417,6 @@ Namespace Triangulator
                         AramailkNoktasi.AralikList(AralikSay).Boya = False
                     End If
                 Next
-
                 If chboxShowInfo.Checked = True Then
                     If EtkinGeo.Durum > 0 And EtkinGeo.UcgenNo > -1 Then
                         Label1.Text = ("durum" + EtkinGeo.Durum.ToString + " ActifÜçgen:" + EtkinGeo.UcgenNo.ToString + " AktifKenar:" + AramailkNoktasi.AralikList.Item(AralikSay).UcgeniciKarsiKenarNo.ToString + " UcgenAdedi:" + TotalUcgenList.Count.ToString + Label1Text)
@@ -440,6 +439,8 @@ Namespace Triangulator
                         Label1.Text = Label1.Text + " ihlal: " + EtkinGeo.ihlal.ToString
                     End If
                 End If
+
+
 
                 If e.X > world.PicXMin + 20 And e.X < world.PicXMax - 20 And e.Y > world.PicYMin + 20 And e.Y < world.PicYMax - 20 Then
 

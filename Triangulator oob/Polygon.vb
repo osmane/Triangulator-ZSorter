@@ -275,6 +275,15 @@ Namespace Triangulator
                             If rneAnswer IsNot Nothing Then
                                 If rneAnswer.OncekiDoluKenar IsNot Nothing Then
                                     If rneAnswer.OncekiDoluKenar.KenarPolyNo <> MovedPolygonNo Or rneAnswer.SonKesilenDoluPoly < -9 Then
+                                        CollisionFound = True
+                                        MovingNokta.OldMoving = MovingNokta.Moving
+                                        'oob
+                                        'If rneAnswer.Poligonized = True Then
+                                        '    Button7.Text = "corner-coll"
+                                        'Else
+                                        '    Button7.Text = "edge-coll"
+                                        'End If
+                                        'oob
 
                                         If MovingNokta.NoktaSilindi = False Then
 
@@ -303,7 +312,10 @@ Namespace Triangulator
                                                 'oob
                                             End If
                                         Next
+
                                         Exit Do
+                                        'Else
+
                                     End If
                                 End If
                             End If
@@ -311,10 +323,12 @@ Namespace Triangulator
 
                         End If
 
-                        If BirNoktaSilindi = False And MoveNoktaSay >= Me.PolyNoktaList.Count - 1 Then
+                        If BirNoktaSilindi = False And MoveNoktaSay >= Me.PolyNoktaList.Count - 1 Then 'And Sayac > 1
+                            'MoveNoktaSay = 0
                             Exit Do
                         ElseIf BirNoktaSilindi = False Then
-                            MoveNoktaSay += 1
+                            MoveNoktaSay = MoveNoktaSay + 1
+
                             'yapilacak: poligondaki tüm noktalara daralma durumunda silinebilir
                             'bu durumda nokasil exception verir finalde kontrol eklenecek
                         End If
@@ -323,10 +337,24 @@ Namespace Triangulator
 
                 SyncLock (Me)
 
-                    Me.PolyMerkez.X += (MouseMoveXFark)
-                    Me.PolyMerkez.Y += (MouseMoveYFark)
+                    Me.PolyMerkez.X = Me.PolyMerkez.X + (MouseMoveXFark)
+                    Me.PolyMerkez.Y = Me.PolyMerkez.Y + (MouseMoveYFark)
+
+                    'For MoveNoktaSay = 0 To Me.PolyNoktaList.Count - 1
+                    '    MovingNokta = TotalNoktaList(Me.PolyNoktaList(MoveNoktaSay))
+                    '    'If ChkBozukBul1.Checked = True Then
+                    '    '    BozukUcgenBul()
+                    '    '    If FatalError Then Exit Sub
+                    '    'End If
+                    'Next
+
+
+                    'yapilacak: kenar normalleri poligon çizilirken hesaplanacak, burada rotate değeri eklenecek.
+
 
                 End SyncLock
+                'PolyMoveEnabled = True
+                'Application.DoEvents()
             End If
             Form1.pboxCanvas.Invalidate()
         End Sub

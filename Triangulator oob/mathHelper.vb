@@ -82,7 +82,6 @@ Namespace Triangulator
                 KesisimNokta.KesisimNok.X = xi
                 KesisimNokta.KesisimNok.Y = yi
 
-
                 KesisimNokta.Uc1toKN = MesafeHesapla(TotalNoktaList(Kenar1.Uc1NoktaNo).KendiYeri, KesisimNokta.KesisimNok)
                 KesisimNokta.Uc2toKN = MesafeHesapla(TotalNoktaList(Kenar1.Uc2NoktaNo).KendiYeri, KesisimNokta.KesisimNok)
                 'Q1 = ((x1 - xi) * (xi - x2)).ToString

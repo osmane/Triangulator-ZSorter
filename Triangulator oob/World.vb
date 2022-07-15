@@ -1733,30 +1733,30 @@
                         istikametList.Add(tmpKenar.KomsuNo)
                         TotalUcgenList.Item(tmpKenar.KomsuNo).GirilenKenarNo = tmpKenar.KomsudaKacinciKenarNo
                         TotalUcgenList.Item(tmpKenar.KomsuNo).GirisPoint = KomsuUcgen.CikisPoint
-                        If KesNok.Durum = 2 Then
+                        'If KesNok.Durum = 2 Then
 
-                            If ((kkbAnswer.OncekiDoluKenar Is Nothing) And (tmpKenar.KenarPolyNo > -1)) Then
-                                kkbAnswer.SonKesilenDoluPoly = tmpKenar.KenarPolyNo
-                                kkbAnswer.OncekiDoluKenar = tmpKenar
-                            ElseIf ((kkbAnswer.OncekiDoluKenar Is Nothing) And (KomsuAktifKenar.KenarPolyNo > -1)) Then
-                                kkbAnswer.SonKesilenDoluPoly = KomsuAktifKenar.KenarPolyNo
-                                kkbAnswer.OncekiDoluKenar = KomsuAktifKenar
-                            End If
-                            If ((kkbAnswer.ilKesilenDiskenar Is Nothing) And ((tmpKenar.PolyKenar = True) Or (tmpKenar.DisKenar = True))) Then
-                                kkbAnswer.ilKesilenDiskenar = tmpKenar
-                            ElseIf ((kkbAnswer.ilKesilenDiskenar Is Nothing) And ((KomsuAktifKenar.PolyKenar = True) Or (KomsuAktifKenar.DisKenar = True))) Then
-                                kkbAnswer.ilKesilenDiskenar = KomsuAktifKenar
-                            End If
-                            If kkbAnswer.OncekiDoluKenar IsNot Nothing Then
-                                TmpUcgenList.Clear()
-                                istikametList.Clear()
-                                MuseumPolygonGiden.Clear()
-                                MuseumPolygonGelen.Clear()
+                        '    If ((kkbAnswer.OncekiDoluKenar Is Nothing) And (tmpKenar.KenarPolyNo > -1)) Then
+                        '        kkbAnswer.SonKesilenDoluPoly = tmpKenar.KenarPolyNo
+                        '        kkbAnswer.OncekiDoluKenar = tmpKenar
+                        '    ElseIf ((kkbAnswer.OncekiDoluKenar Is Nothing) And (KomsuAktifKenar.KenarPolyNo > -1)) Then
+                        '        kkbAnswer.SonKesilenDoluPoly = KomsuAktifKenar.KenarPolyNo
+                        '        kkbAnswer.OncekiDoluKenar = KomsuAktifKenar
+                        '    End If
+                        '    If ((kkbAnswer.ilKesilenDiskenar Is Nothing) And ((tmpKenar.PolyKenar = True) Or (tmpKenar.DisKenar = True))) Then
+                        '        kkbAnswer.ilKesilenDiskenar = tmpKenar
+                        '    ElseIf ((kkbAnswer.ilKesilenDiskenar Is Nothing) And ((KomsuAktifKenar.PolyKenar = True) Or (KomsuAktifKenar.DisKenar = True))) Then
+                        '        kkbAnswer.ilKesilenDiskenar = KomsuAktifKenar
+                        '    End If
+                        '    If kkbAnswer.OncekiDoluKenar IsNot Nothing Then
+                        '        TmpUcgenList.Clear()
+                        '        istikametList.Clear()
+                        '        MuseumPolygonGiden.Clear()
+                        '        MuseumPolygonGelen.Clear()
 
-                                kkbAnswer.Connected = False
-                                Return kkbAnswer
-                            End If
-                        End If
+                        '        kkbAnswer.Connected = False
+                        '        Return kkbAnswer
+                        '    End If
+                        'End If
                         If TotalNoktaList(KomsuUcgen.KenarList(KomsuUcgen.GirilenKenarNo).KarsiNoktaNo).KendiYeri = TargetNokta.KendiYeri Then
                             Exit Do
                         End If
@@ -2004,16 +2004,16 @@
                                     End If
                                     If TotalNoktaList(YanKarsiNo).AralikList.Count - TotalNoktaList(YanKarsiNo).DisableList.Count < 4 Then
                                         If CevrilecekNokta.NoktaPolyNo = TotalNoktaList(YanKarsiNo).NoktaPolyNo And SelfCall = False Then
-                                            'yapılacak: recurcivity adamı siker.
+                                            'yapılacak: recursivity .
 
                                         ElseIf SelfCall = False Then
 
-                                            ''yapilacak: recurcivity gerektiren nokta başka poligondaysa bişeyler yapması gerekiyor
+                                            ''yapilacak: recursivity gerektiren nokta başka poligondaysa bişeyler yapması gerekiyor
                                             ''yoksa sıçar.
 
                                         End If
                                         'yapilacak: yankarşınoktanın polygonu farklıysa ve bu işlem bu nokta aralığını 3 ve altına düşürüse
-                                        'veya yankarşı yeni bir recurcivity başlatırsa sıçabilir.
+                                        'veya yankarşı yeni bir recursivity başlatırsa sıçabilir.
                                         'bu işlem bu uygulamanın her noktayı silemeyeceğini yada 
                                         'bir üçgenin alanının 0 olamayacağını yani tüm noktalarının aynı doğru üzerinde
                                         'olamayacağını gösteriyor.
@@ -2125,7 +2125,7 @@
                                     End If
                                     If TotalNoktaList(YanKarsiNo).AralikList.Count - TotalNoktaList(YanKarsiNo).DisableList.Count < 4 Then
                                         If CevrilecekNokta.NoktaPolyNo = TotalNoktaList(YanKarsiNo).NoktaPolyNo Then
-                                            'yapılacak: recurcivity adamı siker.
+                                            'yapılacak: recursivity .
                                             NoktaSil(YanKarsiNo, True)
                                             TotalNoktaList(YanKarsiNo).NoktaSilindi = True
                                             TotalNoktaList(YanKarsiNo).AralikList.Clear()
@@ -2133,7 +2133,7 @@
                                             Exit For
                                         End If
                                         'yapilacak: yankarşınoktanın polygonu farklıysa ve bu işlem bu nokta aralığını  ve altına düşürüse
-                                        'veya yankarşı yeni bir recurcivity başlatırsa sıçabilir.
+                                        'veya yankarşı yeni bir recursivity başlatırsa sıçabilir.
                                     End If
 
                                     Karsi1 = TotalNoktaList(GecisKenari.KarsiNoktaNo)

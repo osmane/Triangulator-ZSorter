@@ -217,7 +217,7 @@ Namespace Triangulator
             'PolyMoveXFark: noktaların hareket farkı
             'MouseMoveXFark: merkezin hareket farkı
             If MovedPolygonNo > -1 Then
-                Angle -= Me.VelocityW * (180 / PI)
+                'Angle -= Me.VelocityW * (180 / PI)
                 PolyMoveEnabled = False
                 Do
 
@@ -350,8 +350,6 @@ Namespace Triangulator
 
 
                     'yapilacak: kenar normalleri poligon çizilirken hesaplanacak, burada rotate değeri eklenecek.
-
-
                 End SyncLock
                 'PolyMoveEnabled = True
                 'Application.DoEvents()

@@ -39,6 +39,14 @@
         Public logImpacts As Boolean
         Public tmpSayac As Integer
 
+        Structure KenarKey
+            Public Uc1 As Integer
+            Public Uc2 As Integer
+        End Structure
+
+
+        Public YenilenecekKenarlar As New Dictionary(Of KenarKey, Kenar)
+
         Sub New()
             Me.PolygonList = New List(Of Polygon)
             Me.TotalNoktaList = New List(Of Nokta)
@@ -393,7 +401,7 @@
                 If SonBasilanNokta.AralikList.Item(AralikSay).Disabled = False Then
 
 
-                    If PointKoord = TotalNoktaList(SonBasilanNokta.AralikList.Item(AralikSay).GidenUcNo).KendiYeri Or _
+                    If PointKoord = TotalNoktaList(SonBasilanNokta.AralikList.Item(AralikSay).GidenUcNo).KendiYeri Or
                        PointKoord = TotalNoktaList(SonBasilanNokta.AralikList.Item(AralikSay).GelenUcNo).KendiYeri Then
                         If ClosingPointNo > 0 Then
                             EskiCiz = False
@@ -539,9 +547,9 @@
                                     TotalUcgenList.Add(TmpUcgenList.Item(2))
                                     If PolygonList(PolygonList.Count - 1).PolyNoktaList.Count > 1 Then
                                         For KenarSay = 1 To 2
-                                            If (TotalUcgenList(TotalUcgenList.Count - 1).KenarList(KenarSay).Uc1NoktaNo = TotalNoktaList.Count - 1 And _
-                                                TotalUcgenList(TotalUcgenList.Count - 1).KenarList(KenarSay).Uc2NoktaNo = TotalNoktaList.Count - 2) Or _
-                                               (TotalUcgenList(TotalUcgenList.Count - 1).KenarList(KenarSay).Uc2NoktaNo = TotalNoktaList.Count - 1 And _
+                                            If (TotalUcgenList(TotalUcgenList.Count - 1).KenarList(KenarSay).Uc1NoktaNo = TotalNoktaList.Count - 1 And
+                                                TotalUcgenList(TotalUcgenList.Count - 1).KenarList(KenarSay).Uc2NoktaNo = TotalNoktaList.Count - 2) Or
+                                               (TotalUcgenList(TotalUcgenList.Count - 1).KenarList(KenarSay).Uc2NoktaNo = TotalNoktaList.Count - 1 And
                                                 TotalUcgenList(TotalUcgenList.Count - 1).KenarList(KenarSay).Uc1NoktaNo = TotalNoktaList.Count - 2) Then
                                                 TotalUcgenList(TotalUcgenList.Count - 1).KenarList(KenarSay).PolyKenar = True
                                                 TotalUcgenList(TotalUcgenList.Count - 1).KenarList(KenarSay).DisKenar = True
@@ -963,7 +971,7 @@
                         MuseumPolygonGiden.Add(SonUcgen.KenarList.Item(SonUcgenTepeAra.UcgeniciGelenKenarNo))
                     End If
                     Dim GidenSonKenar As New Kenar
-                    If MuseumPolygonGiden(MuseumPolygonGiden.Count - 1).Uc1NoktaNo <> MuseumPolygonGiden(MuseumPolygonGiden.Count - 1).Uc2NoktaNo And _
+                    If MuseumPolygonGiden(MuseumPolygonGiden.Count - 1).Uc1NoktaNo <> MuseumPolygonGiden(MuseumPolygonGiden.Count - 1).Uc2NoktaNo And
                        MuseumPolygonGiden(MuseumPolygonGiden.Count - 1).Uc2NoktaNo <> MuseumPolygonGiden(0).Uc1NoktaNo Then
 
                         GidenSonKenar.Uc1NoktaNo = MuseumPolygonGiden(MuseumPolygonGiden.Count - 1).Uc2NoktaNo
@@ -979,7 +987,7 @@
                     tmpMuseumPolygonGiden.AddRange(MuseumPolygonGiden)
                     TmpUcgenList.Clear()
 
-                    If MuseumPolygonGelen(0).Uc1NoktaNo <> SonUcgen.KenarList.Item(SonUcgenTepeAra.UcgeniciGidenKenarNo).Uc1NoktaNo And _
+                    If MuseumPolygonGelen(0).Uc1NoktaNo <> SonUcgen.KenarList.Item(SonUcgenTepeAra.UcgeniciGidenKenarNo).Uc1NoktaNo And
                        MuseumPolygonGelen(0).Uc2NoktaNo <> SonUcgen.KenarList.Item(SonUcgenTepeAra.UcgeniciGidenKenarNo).Uc2NoktaNo Then
 
                         MuseumPolygonGelen.Insert(0, SonUcgen.KenarList.Item(SonUcgenTepeAra.UcgeniciGidenKenarNo))
@@ -1153,7 +1161,7 @@
                     End If
 
 
-                    If (SonrakiKenar.Uc1NoktaNo = DahaSonrakiKenar.Uc2NoktaNo And SonrakiKenar.Uc2NoktaNo = DahaSonrakiKenar.Uc1NoktaNo) Or _
+                    If (SonrakiKenar.Uc1NoktaNo = DahaSonrakiKenar.Uc2NoktaNo And SonrakiKenar.Uc2NoktaNo = DahaSonrakiKenar.Uc1NoktaNo) Or
                        (SonrakiKenar.Uc2NoktaNo = DahaSonrakiKenar.Uc2NoktaNo And SonrakiKenar.Uc1NoktaNo = DahaSonrakiKenar.Uc1NoktaNo) Then
                         SonrakiKenar.KomsuNo = -1
                         'SonrakiKenar.KomsudaKacinciKenarNo = 1
@@ -1172,7 +1180,7 @@
                     Kenar0.KomsudaKacinciKenarNo = 2
 
 
-                    If (SonrakiKenar.Uc1NoktaNo = DahaSonrakiKenar.Uc2NoktaNo And SonrakiKenar.Uc2NoktaNo = DahaSonrakiKenar.Uc1NoktaNo) Or _
+                    If (SonrakiKenar.Uc1NoktaNo = DahaSonrakiKenar.Uc2NoktaNo And SonrakiKenar.Uc2NoktaNo = DahaSonrakiKenar.Uc1NoktaNo) Or
                         (SonrakiKenar.Uc2NoktaNo = DahaSonrakiKenar.Uc2NoktaNo And SonrakiKenar.Uc1NoktaNo = DahaSonrakiKenar.Uc1NoktaNo) Then
                         DahaSonrakiKenar.KomsuNo = EarSonUcgen
                         DahaSonrakiKenar.KomsudaKacinciKenarNo = 1
@@ -1298,6 +1306,9 @@
                 TotalNoktaList(K0.KarsiNoktaNo).AralikList(K0.KarsiNoktaAralikNo).UcgenNo = EarSonUcgen
                 TotalNoktaList(K1.KarsiNoktaNo).AralikList(K1.KarsiNoktaAralikNo).UcgenNo = EarSonUcgen
                 TotalNoktaList(K2.KarsiNoktaNo).AralikList(K2.KarsiNoktaAralikNo).UcgenNo = EarSonUcgen
+
+                YenilenecekKenarEkle(TotalUcgenList.Item(EarSonUcgen).KenarList)
+
                 TotalUcgenList.Item(EarSonUcgen).KenarList.Clear()
                 TotalUcgenList.Item(EarSonUcgen).KenarList.AddRange(tmpucgen.KenarList)
                 'MsgBox("NoktaNo: " + K0.KarsiNoktaNo.ToString + " AralıkNo: " + K0.KarsiNoktaAralikNo.ToString + " AralıkDisabled: " + TotalNoktaList(K0.KarsiNoktaNo).AralikList(K0.KarsiNoktaAralikNo).Disabled.ToString _
@@ -1653,7 +1664,7 @@
                 Return kkbAnswer
 
             End If
-            If tmpKenar.Uc1NoktaNo = LookingNokta.NoktaNo Or tmpKenar.Uc2NoktaNo = LookingNokta.NoktaNo Or _
+            If tmpKenar.Uc1NoktaNo = LookingNokta.NoktaNo Or tmpKenar.Uc2NoktaNo = LookingNokta.NoktaNo Or
                 tmpKenar.Uc1NoktaNo = TargetNokta.NoktaNo Or tmpKenar.Uc2NoktaNo = TargetNokta.NoktaNo Then
                 kkbAnswer.Connected = True
 
@@ -1705,8 +1716,6 @@
 
                         KomsuUcgen = TotalUcgenList.Item(tmpKenar.KomsuNo)
                         KomsuAktifKenar = KomsuUcgen.KenarList.Item(tmpKenar.KomsudaKacinciKenarNo)
-
-
 
                         If tmpKenar.KomsuNo < 0 Then
 
@@ -1886,7 +1895,7 @@
                 End If
 
                 Dim GidenSonKenar As New Kenar
-                If MuseumPolygonGiden(MuseumPolygonGiden.Count - 1).Uc1NoktaNo <> MuseumPolygonGiden(MuseumPolygonGiden.Count - 1).Uc2NoktaNo And _
+                If MuseumPolygonGiden(MuseumPolygonGiden.Count - 1).Uc1NoktaNo <> MuseumPolygonGiden(MuseumPolygonGiden.Count - 1).Uc2NoktaNo And
                    MuseumPolygonGiden(MuseumPolygonGiden.Count - 1).Uc2NoktaNo <> MuseumPolygonGiden(0).Uc1NoktaNo Then
 
                     GidenSonKenar.Uc1NoktaNo = MuseumPolygonGiden(MuseumPolygonGiden.Count - 1).Uc2NoktaNo
@@ -1905,7 +1914,7 @@
 
 
 
-                If MuseumPolygonGelen(0).Uc1NoktaNo <> SonUcgen.KenarList.Item(SonUcgenTepeAra.UcgeniciGidenKenarNo).Uc1NoktaNo And _
+                If MuseumPolygonGelen(0).Uc1NoktaNo <> SonUcgen.KenarList.Item(SonUcgenTepeAra.UcgeniciGidenKenarNo).Uc1NoktaNo And
                    MuseumPolygonGelen(0).Uc2NoktaNo <> SonUcgen.KenarList.Item(SonUcgenTepeAra.UcgeniciGidenKenarNo).Uc2NoktaNo Then
 
                     MuseumPolygonGelen.Insert(0, SonUcgen.KenarList.Item(SonUcgenTepeAra.UcgeniciGidenKenarNo))
@@ -2502,6 +2511,12 @@
             Dim TakasUcgen As Ucgen
             Dim TakasNokta As Nokta
 
+            Dim mergedKenars As New List(Of Kenar)
+            mergedKenars.AddRange(bagBakanUcgen.KenarList)
+            mergedKenars.AddRange(bagKarsiUcgen.KenarList)
+
+            YenilenecekKenarEkle(mergedKenars)
+
             If bagBakanUcgen.KenarList.Count < 3 Or bagKarsiUcgen.KenarList.Count < 3 Then
                 Beep()
             End If
@@ -2765,10 +2780,10 @@
         End Sub
 
         Public Function ReNewEdge(ByVal MovingNokta As Nokta, ByVal MovedPolygonNo As Integer, ByVal PolyNoktaSiraNo As Integer) As PointToAnswer
-            Dim BoyamaKenari1, BoyamaKenari2 As Kenar
+
             Dim AramailkNoktasiArama As Integer = 0
             Dim RneAnswer As New PointToAnswer
-            Dim AralikSay2, Araliksay3 As Integer
+            Dim AralikSay2 As Integer
             If MovingNokta.NoktaSilindi = True Then
                 Do
 
@@ -2820,8 +2835,13 @@
                                         End If
                                     End If
 
-
                                     FreeNokta(MovingNokta, MovingNokta.KendiYeri, TotalUcgenList(MoveEtkinGeo.UcgenNo), MoveEtkinGeo.UcgenNo)
+
+                                    MovingNokta.NoktaSilindi = False
+
+                                    AramailkNoktasi = TotalNoktaList(TotalUcgenList(MoveEtkinGeo.UcgenNo).KenarList(0).KarsiNoktaNo)
+
+
 
                                     'taşınan nokta yeniden basıldı.
                                     'AralikSay = MovingNokta.AralikList.Count
@@ -2829,140 +2849,7 @@
                                     'Exit Do
                                     MovingNokta.NoktaSilindi = False
 
-                                    AramailkNoktasi = TotalNoktaList(TotalUcgenList(MoveEtkinGeo.UcgenNo).KenarList(0).KarsiNoktaNo)
-
-                                    Dim PolyBagNokta1 As Nokta = TotalNoktaList(PolygonList(MovedPolygonNo).PolyNoktaList((PolyNoktaSiraNo + 1) Mod PolygonList(MovedPolygonNo).PolyNoktaList.Count))
-                                    If PolyBagNokta1.NoktaSilindi = False Then
-
-                                        For Araliksay3 = 0 To MovingNokta.AralikList.Count - 1
-
-                                            If MovingNokta.AralikList(Araliksay3).Disabled = False Then
-
-                                                Dim Arakenar As Kenar = TotalUcgenList(MovingNokta.AralikList(Araliksay3).UcgenNo).KenarList(MovingNokta.AralikList(Araliksay3).UcgeniciKarsiKenarNo)
-                                                If MovingNokta.AralikList(Araliksay3).GidenUcNo <> PolyBagNokta1.NoktaNo And MovingNokta.AralikList(Araliksay3).GelenUcNo <> PolyBagNokta1.NoktaNo Then
-                                                    'BagEtkinGeo1 = PointToPointQuery2(MovingNokta, PolyBagNokta1.KendiYeri, False, MovingNokta.AralikList(Araliksay3), 0)
-                                                    If CollKesisimHesapla(Arakenar, MovingNokta, PolyBagNokta1.KendiYeri, 0, TotalNoktaList).Durum > 0 Then
-
-                                                        RneAnswer = KosedenKoseyeBagla(PolyBagNokta1, MovingNokta, MovingNokta.AralikList(Araliksay3), True, RneAnswer, MovingNokta.NoktaPolyNo)
-                                                        If RneAnswer.Connected = False And RneAnswer.OncekiDoluKenar IsNot Nothing Then
-                                                            RneAnswer.karsiNokta = PolyBagNokta1
-                                                            Exit Do
-                                                        Else
-                                                            'BoyamaKenari1, BoyamaKenari2
-                                                            BoyamaKenari1 = TotalUcgenList(RneAnswer.EarSonUcgen).KenarList(2)
-                                                            BoyamaKenari1.PolyKenar = False
-                                                            BoyamaKenari1.DisKenar = True
-                                                            BoyamaKenari1.KenarPolyNo = MovedPolygonNo
-                                                            TotalUcgenList(BoyamaKenari1.KomsuNo).KenarList(BoyamaKenari1.KomsudaKacinciKenarNo).PolyKenar = False
-                                                            TotalUcgenList(BoyamaKenari1.KomsuNo).KenarList(BoyamaKenari1.KomsudaKacinciKenarNo).DisKenar = True
-                                                            TotalUcgenList(BoyamaKenari1.KomsuNo).KenarList(BoyamaKenari1.KomsudaKacinciKenarNo).KenarPolyNo = MovedPolygonNo
-                                                            KenardanUcgenBoya(BoyamaKenari1, RneAnswer.EarSonUcgen, MovingNokta.NoktaPolyNo)
-
-                                                            'If ChkBozukBul1.Checked = True Then
-                                                            '    BozukUcgenBul()
-                                                            '    If FatalError Then Exit Sub
-                                                            'End If
-                                                            Exit For
-                                                        End If
-
-                                                    End If
-                                                Else
-                                                    If MovingNokta.AralikList(Araliksay3).GidenUcNo = PolyBagNokta1.NoktaNo Then
-                                                        BoyamaKenari1 = TotalUcgenList(MovingNokta.AralikList(Araliksay3).UcgenNo).KenarList(MovingNokta.AralikList(Araliksay3).UcgeniciGidenKenarNo)
-                                                        BoyamaKenari1.PolyKenar = False
-                                                        BoyamaKenari1.DisKenar = True
-                                                        BoyamaKenari1.KenarPolyNo = MovedPolygonNo
-                                                        TotalUcgenList(BoyamaKenari1.KomsuNo).KenarList(BoyamaKenari1.KomsudaKacinciKenarNo).PolyKenar = False
-                                                        TotalUcgenList(BoyamaKenari1.KomsuNo).KenarList(BoyamaKenari1.KomsudaKacinciKenarNo).DisKenar = True
-                                                        TotalUcgenList(BoyamaKenari1.KomsuNo).KenarList(BoyamaKenari1.KomsudaKacinciKenarNo).KenarPolyNo = MovedPolygonNo
-                                                        KenardanUcgenBoya(BoyamaKenari1, MovingNokta.AralikList(Araliksay3).UcgenNo, MovingNokta.NoktaPolyNo)
-                                                    End If
-                                                    If MovingNokta.AralikList(Araliksay3).GelenUcNo = PolyBagNokta1.NoktaNo Then
-                                                        BoyamaKenari1 = TotalUcgenList(MovingNokta.AralikList(Araliksay3).UcgenNo).KenarList(MovingNokta.AralikList(Araliksay3).UcgeniciGelenKenarNo)
-                                                        BoyamaKenari1.PolyKenar = False
-                                                        BoyamaKenari1.DisKenar = True
-                                                        BoyamaKenari1.KenarPolyNo = MovedPolygonNo
-                                                        TotalUcgenList(BoyamaKenari1.KomsuNo).KenarList(BoyamaKenari1.KomsudaKacinciKenarNo).PolyKenar = False
-                                                        TotalUcgenList(BoyamaKenari1.KomsuNo).KenarList(BoyamaKenari1.KomsudaKacinciKenarNo).DisKenar = True
-                                                        TotalUcgenList(BoyamaKenari1.KomsuNo).KenarList(BoyamaKenari1.KomsudaKacinciKenarNo).KenarPolyNo = MovedPolygonNo
-                                                        KenardanUcgenBoya(BoyamaKenari1, MovingNokta.AralikList(Araliksay3).UcgenNo, MovingNokta.NoktaPolyNo)
-                                                    End If
-                                                    Exit For
-                                                End If
-                                            Else
-                                            End If
-                                        Next
-                                    End If
-
-                                    Dim PolyBagNokta2no As Integer = PolyNoktaSiraNo - 1
-                                    If PolyBagNokta2no < 0 Then PolyBagNokta2no = PolygonList(MovedPolygonNo).PolyNoktaList.Count - 1
-                                    Dim PolyBagNokta2 As Nokta = TotalNoktaList(PolygonList(MovedPolygonNo).PolyNoktaList(PolyBagNokta2no))
-
-                                    If PolyBagNokta2.NoktaSilindi = False Then
-
-                                        For Araliksay3 = 0 To MovingNokta.AralikList.Count - 1
-                                            If MovingNokta.AralikList(Araliksay3).Disabled = False Then
-                                                Dim Arakenar As Kenar = TotalUcgenList(MovingNokta.AralikList(Araliksay3).UcgenNo).KenarList(MovingNokta.AralikList(Araliksay3).UcgeniciKarsiKenarNo)
-
-                                                If MovingNokta.AralikList(Araliksay3).GidenUcNo <> PolyBagNokta2.NoktaNo And MovingNokta.AralikList(Araliksay3).GelenUcNo <> PolyBagNokta2.NoktaNo Then
-                                                    'BagEtkinGeo2 = PointToPointQuery2(MovingNokta, PolyBagNokta2.KendiYeri, False, MovingNokta.AralikList(Araliksay3), 0)
-                                                    If CollKesisimHesapla(Arakenar, MovingNokta, PolyBagNokta2.KendiYeri, 0, TotalNoktaList).Durum > 0 Then
-
-                                                        RneAnswer = KosedenKoseyeBagla(PolyBagNokta2, MovingNokta, MovingNokta.AralikList(Araliksay3), True, RneAnswer, MovingNokta.NoktaPolyNo)
-                                                        If RneAnswer.Connected = False And RneAnswer.OncekiDoluKenar IsNot Nothing Then
-                                                            RneAnswer.karsiNokta = PolyBagNokta2
-                                                            Exit Do
-                                                        Else
-
-                                                            BoyamaKenari2 = TotalUcgenList(RneAnswer.EarSonUcgen).KenarList(2)
-                                                            BoyamaKenari2.PolyKenar = False
-                                                            BoyamaKenari2.DisKenar = True
-                                                            BoyamaKenari2.KenarPolyNo = MovedPolygonNo
-                                                            TotalUcgenList(BoyamaKenari2.KomsuNo).KenarList(BoyamaKenari2.KomsudaKacinciKenarNo).PolyKenar = False
-                                                            TotalUcgenList(BoyamaKenari2.KomsuNo).KenarList(BoyamaKenari2.KomsudaKacinciKenarNo).DisKenar = True
-                                                            TotalUcgenList(BoyamaKenari2.KomsuNo).KenarList(BoyamaKenari2.KomsudaKacinciKenarNo).KenarPolyNo = MovedPolygonNo
-                                                            KenardanUcgenBoya(BoyamaKenari2, RneAnswer.EarSonUcgen, MovingNokta.NoktaPolyNo)
-                                                            'yapilacak: komşuyuda doldur
-                                                            'If ChkBozukBul1.Checked = True Then
-                                                            '    BozukUcgenBul()
-                                                            '    If FatalError Then Exit Sub
-                                                            'End If
-                                                            Exit For
-                                                        End If
-
-                                                    End If
-                                                Else
-                                                    If MovingNokta.AralikList(Araliksay3).GidenUcNo = PolyBagNokta2.NoktaNo Then
-                                                        BoyamaKenari2 = TotalUcgenList(MovingNokta.AralikList(Araliksay3).UcgenNo).KenarList(MovingNokta.AralikList(Araliksay3).UcgeniciGidenKenarNo)
-                                                        BoyamaKenari2.PolyKenar = False
-                                                        BoyamaKenari2.DisKenar = True
-                                                        BoyamaKenari2.KenarPolyNo = MovedPolygonNo
-                                                        TotalUcgenList(BoyamaKenari2.KomsuNo).KenarList(BoyamaKenari2.KomsudaKacinciKenarNo).PolyKenar = False
-                                                        TotalUcgenList(BoyamaKenari2.KomsuNo).KenarList(BoyamaKenari2.KomsudaKacinciKenarNo).DisKenar = True
-                                                        TotalUcgenList(BoyamaKenari2.KomsuNo).KenarList(BoyamaKenari2.KomsudaKacinciKenarNo).KenarPolyNo = MovedPolygonNo
-                                                        KenardanUcgenBoya(BoyamaKenari2, MovingNokta.AralikList(Araliksay3).UcgenNo, MovingNokta.NoktaPolyNo)
-                                                    End If
-                                                    If MovingNokta.AralikList(Araliksay3).GelenUcNo = PolyBagNokta2.NoktaNo Then
-                                                        BoyamaKenari2 = TotalUcgenList(MovingNokta.AralikList(Araliksay3).UcgenNo).KenarList(MovingNokta.AralikList(Araliksay3).UcgeniciGelenKenarNo)
-                                                        BoyamaKenari2.PolyKenar = False
-                                                        BoyamaKenari2.DisKenar = True
-                                                        BoyamaKenari2.KenarPolyNo = MovedPolygonNo
-                                                        TotalUcgenList(BoyamaKenari2.KomsuNo).KenarList(BoyamaKenari2.KomsudaKacinciKenarNo).PolyKenar = False
-                                                        TotalUcgenList(BoyamaKenari2.KomsuNo).KenarList(BoyamaKenari2.KomsudaKacinciKenarNo).DisKenar = True
-                                                        TotalUcgenList(BoyamaKenari2.KomsuNo).KenarList(BoyamaKenari2.KomsudaKacinciKenarNo).KenarPolyNo = MovedPolygonNo
-                                                        KenardanUcgenBoya(BoyamaKenari2, MovingNokta.AralikList(Araliksay3).UcgenNo, MovingNokta.NoktaPolyNo)
-                                                    End If
-
-                                                    Exit For
-                                                End If
-
-                                            Else
-
-                                            End If
-                                        Next
-
-                                    End If
-
+                                    Exit Do
 
                                     Exit For
 
@@ -3045,5 +2932,29 @@
             'End If
         End Sub
 
+        Public Sub YenilenecekKenarEkle(kenarlistesi As List(Of Kenar))
+            For Each tmpKenar As Kenar In kenarlistesi.Where(Function(x) x.DisKenar = True)
+                Dim kenarKey, kenarKeyReverse As New KenarKey
+                kenarKey.Uc1 = tmpKenar.Uc1NoktaNo
+                kenarKey.Uc2 = tmpKenar.Uc2NoktaNo
+
+                kenarKeyReverse.Uc1 = tmpKenar.Uc2NoktaNo
+                kenarKeyReverse.Uc2 = tmpKenar.Uc1NoktaNo
+
+                Dim kenar As Kenar = Nothing
+
+                If Not YenilenecekKenarlar.TryGetValue(kenarKey, kenar) Then
+                    YenilenecekKenarlar.TryGetValue(kenarKeyReverse, kenar)
+                End If
+
+                If (kenar Is Nothing) Then
+                    tmpKenar.Yenile = True
+                    YenilenecekKenarlar.Add(kenarKey, tmpKenar.Clone)
+                Else
+                    kenar.Yenile = True
+                End If
+
+            Next
+        End Sub
     End Class
 End Namespace

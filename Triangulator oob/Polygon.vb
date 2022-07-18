@@ -42,7 +42,6 @@ Namespace Triangulator
         Public doMove As Boolean
         Dim lineerpen As Pen
         Dim angularpen As Pen
-
         Property PolyMoveEnabled As Boolean
             Get
                 PolyMoveEnabled = Me.world.PolyMoveEnabled
@@ -207,6 +206,9 @@ Namespace Triangulator
 
             Dim MouseMoveXFark As Double = Me.VelocityX
             Dim MouseMoveYFark As Double = Me.VelocityY
+
+            Dim BoyamaKenari1 As Kenar
+
             CollisionFound = False
             'CollTestKenar0, CollTestKenar1, CollTestKenar2,
             PoinLineIntList.Clear()
@@ -336,6 +338,81 @@ Namespace Triangulator
                 Loop
 
                 SyncLock (Me)
+
+                    Dim silinecekKenarStartCount As Integer = world.YenilenecekKenarlar.Count
+
+                    For Each kenarPair As KeyValuePair(Of World.KenarKey, Kenar) In world.YenilenecekKenarlar
+                        Dim reKenar As Kenar = kenarPair.Value
+                        Dim uc1Nokta As Nokta = TotalNoktaList(reKenar.Uc1NoktaNo)
+                        Dim uc2Nokta As Nokta = TotalNoktaList(reKenar.Uc2NoktaNo)
+
+                        If uc2Nokta.NoktaSilindi = False And uc1Nokta.NoktaSilindi = False Then
+
+                            For Araliksay3 = 0 To uc1Nokta.AralikList.Count - 1
+
+                                If uc1Nokta.AralikList(Araliksay3).Disabled = False Then
+
+                                    Dim Arakenar As Kenar = TotalUcgenList(uc1Nokta.AralikList(Araliksay3).UcgenNo).KenarList(uc1Nokta.AralikList(Araliksay3).UcgeniciKarsiKenarNo)
+                                    If uc1Nokta.AralikList(Araliksay3).GidenUcNo <> uc2Nokta.NoktaNo And uc1Nokta.AralikList(Araliksay3).GelenUcNo <> uc2Nokta.NoktaNo Then
+                                        If CollKesisimHesapla(Arakenar, uc1Nokta, uc2Nokta.KendiYeri, 0, TotalNoktaList).Durum > 0 Then
+                                            rneAnswer = PointToPointQuery2(uc1Nokta, uc2Nokta.KendiYeri, False, uc1Nokta.AralikList(Araliksay3), 0, TotalNoktaList, TotalUcgenList)
+                                            rneAnswer = Me.world.KosedenKoseyeBagla(uc2Nokta, uc1Nokta, uc1Nokta.AralikList(Araliksay3), True, rneAnswer, reKenar.KenarPolyNo)
+
+                                            If rneAnswer.Connected = False And rneAnswer.OncekiDoluKenar IsNot Nothing Then
+                                                rneAnswer.karsiNokta = uc2Nokta
+                                                Exit For
+                                            Else
+
+                                                BoyamaKenari1 = TotalUcgenList(rneAnswer.EarSonUcgen).KenarList(2)
+                                                BoyamaKenari1.PolyKenar = False
+                                                BoyamaKenari1.DisKenar = True
+                                                BoyamaKenari1.KenarPolyNo = reKenar.KenarPolyNo
+                                                TotalUcgenList(BoyamaKenari1.KomsuNo).KenarList(BoyamaKenari1.KomsudaKacinciKenarNo).PolyKenar = False
+                                                TotalUcgenList(BoyamaKenari1.KomsuNo).KenarList(BoyamaKenari1.KomsudaKacinciKenarNo).DisKenar = True
+                                                TotalUcgenList(BoyamaKenari1.KomsuNo).KenarList(BoyamaKenari1.KomsudaKacinciKenarNo).KenarPolyNo = reKenar.KenarPolyNo
+                                                Me.world.KenardanUcgenBoya(BoyamaKenari1, rneAnswer.EarSonUcgen, reKenar.KenarPolyNo)
+                                                'reKenar.Yenile = False
+                                                Exit For
+                                            End If
+                                        End If
+                                    Else
+                                        If uc1Nokta.AralikList(Araliksay3).GidenUcNo = uc2Nokta.NoktaNo Then
+                                            BoyamaKenari1 = TotalUcgenList(uc1Nokta.AralikList(Araliksay3).UcgenNo).KenarList(uc1Nokta.AralikList(Araliksay3).UcgeniciGidenKenarNo)
+                                            BoyamaKenari1.PolyKenar = False
+                                            BoyamaKenari1.DisKenar = True
+                                            BoyamaKenari1.KenarPolyNo = reKenar.KenarPolyNo
+                                            TotalUcgenList(BoyamaKenari1.KomsuNo).KenarList(BoyamaKenari1.KomsudaKacinciKenarNo).PolyKenar = False
+                                            TotalUcgenList(BoyamaKenari1.KomsuNo).KenarList(BoyamaKenari1.KomsudaKacinciKenarNo).DisKenar = True
+                                            TotalUcgenList(BoyamaKenari1.KomsuNo).KenarList(BoyamaKenari1.KomsudaKacinciKenarNo).KenarPolyNo = reKenar.KenarPolyNo
+                                            Me.world.KenardanUcgenBoya(BoyamaKenari1, uc1Nokta.AralikList(Araliksay3).UcgenNo, uc1Nokta.NoktaPolyNo)
+                                            reKenar.Yenile = False
+                                        End If
+                                        If uc1Nokta.AralikList(Araliksay3).GelenUcNo = uc2Nokta.NoktaNo Then
+                                            BoyamaKenari1 = TotalUcgenList(uc1Nokta.AralikList(Araliksay3).UcgenNo).KenarList(uc1Nokta.AralikList(Araliksay3).UcgeniciGelenKenarNo)
+                                            BoyamaKenari1.PolyKenar = False
+                                            BoyamaKenari1.DisKenar = True
+                                            BoyamaKenari1.KenarPolyNo = reKenar.KenarPolyNo
+                                            TotalUcgenList(BoyamaKenari1.KomsuNo).KenarList(BoyamaKenari1.KomsudaKacinciKenarNo).PolyKenar = False
+                                            TotalUcgenList(BoyamaKenari1.KomsuNo).KenarList(BoyamaKenari1.KomsudaKacinciKenarNo).DisKenar = True
+                                            TotalUcgenList(BoyamaKenari1.KomsuNo).KenarList(BoyamaKenari1.KomsudaKacinciKenarNo).KenarPolyNo = reKenar.KenarPolyNo
+                                            Me.world.KenardanUcgenBoya(BoyamaKenari1, uc1Nokta.AralikList(Araliksay3).UcgenNo, uc1Nokta.NoktaPolyNo)
+                                            reKenar.Yenile = False
+                                        End If
+                                        Exit For
+                                    End If
+                                Else
+                                End If
+                            Next
+                        End If
+
+                        If silinecekKenarStartCount <> world.YenilenecekKenarlar.Count Then
+                            Exit For
+                        End If
+                    Next
+
+                    For Each kenarPair In world.YenilenecekKenarlar.Where(Function(x) x.Value.Yenile = False).ToList()
+                        world.YenilenecekKenarlar.Remove(kenarPair.Key)
+                    Next
 
                     Me.PolyMerkez.X = Me.PolyMerkez.X + (MouseMoveXFark)
                     Me.PolyMerkez.Y = Me.PolyMerkez.Y + (MouseMoveYFark)

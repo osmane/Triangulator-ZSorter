@@ -208,7 +208,7 @@ Namespace Triangulator
             Dim MouseMoveYFark As Double = Me.VelocityY
 
             Dim BoyamaKenari1 As Kenar
-
+            Dim tmpCounter As Integer = 0
             CollisionFound = False
             'CollTestKenar0, CollTestKenar1, CollTestKenar2,
             PoinLineIntList.Clear()
@@ -224,6 +224,11 @@ Namespace Triangulator
                 Do
 
                     MovingNokta = TotalNoktaList(Me.PolyNoktaList(MoveNoktaSay))
+                    'test code Begin
+                    If MovingNokta.NoktaNo = 17 Then
+                        tmpCounter += 1
+                    End If
+                    'test Code End
 
                     MovingNokta.Aci -= Me.VelocityW * (180 / PI)
                     PolyMoveXFark = (Me.PolyMerkez.X + (MovingNokta.Uzaklik * Cos(MovingNokta.Aci * (PI / 180))) + (MouseMoveXFark)) - MovingNokta.KendiYeri.X
@@ -337,9 +342,9 @@ Namespace Triangulator
                     End SyncLock
                 Loop
 
-                SyncLock (Me)
 
-                    Dim silinecekKenarStartCount As Integer = world.YenilenecekKenarlar.Count
+
+                Dim silinecekKenarStartCount As Integer = world.YenilenecekKenarlar.Count
 
                     For Each kenarPair As KeyValuePair(Of World.KenarKey, Kenar) In world.YenilenecekKenarlar
                         Dim reKenar As Kenar = kenarPair.Value
@@ -371,7 +376,7 @@ Namespace Triangulator
                                                 TotalUcgenList(BoyamaKenari1.KomsuNo).KenarList(BoyamaKenari1.KomsudaKacinciKenarNo).DisKenar = True
                                                 TotalUcgenList(BoyamaKenari1.KomsuNo).KenarList(BoyamaKenari1.KomsudaKacinciKenarNo).KenarPolyNo = reKenar.KenarPolyNo
                                                 Me.world.KenardanUcgenBoya(BoyamaKenari1, rneAnswer.EarSonUcgen, reKenar.KenarPolyNo)
-                                                'reKenar.Yenile = False
+                                                reKenar.Yenile = False
                                                 Exit For
                                             End If
                                         End If
@@ -386,6 +391,7 @@ Namespace Triangulator
                                             TotalUcgenList(BoyamaKenari1.KomsuNo).KenarList(BoyamaKenari1.KomsudaKacinciKenarNo).KenarPolyNo = reKenar.KenarPolyNo
                                             Me.world.KenardanUcgenBoya(BoyamaKenari1, uc1Nokta.AralikList(Araliksay3).UcgenNo, uc1Nokta.NoktaPolyNo)
                                             reKenar.Yenile = False
+                                            Exit For
                                         End If
                                         If uc1Nokta.AralikList(Araliksay3).GelenUcNo = uc2Nokta.NoktaNo Then
                                             BoyamaKenari1 = TotalUcgenList(uc1Nokta.AralikList(Araliksay3).UcgenNo).KenarList(uc1Nokta.AralikList(Araliksay3).UcgeniciGelenKenarNo)
@@ -397,8 +403,9 @@ Namespace Triangulator
                                             TotalUcgenList(BoyamaKenari1.KomsuNo).KenarList(BoyamaKenari1.KomsudaKacinciKenarNo).KenarPolyNo = reKenar.KenarPolyNo
                                             Me.world.KenardanUcgenBoya(BoyamaKenari1, uc1Nokta.AralikList(Araliksay3).UcgenNo, uc1Nokta.NoktaPolyNo)
                                             reKenar.Yenile = False
+                                            Exit For
                                         End If
-                                        Exit For
+
                                     End If
                                 Else
                                 End If
@@ -410,10 +417,11 @@ Namespace Triangulator
                         End If
                     Next
 
-                    For Each kenarPair In world.YenilenecekKenarlar.Where(Function(x) x.Value.Yenile = False).ToList()
-                        world.YenilenecekKenarlar.Remove(kenarPair.Key)
-                    Next
+                For Each kenarPair In world.YenilenecekKenarlar.Where(Function(x) x.Value.Yenile = False).ToList()
+                    world.YenilenecekKenarlar.Remove(kenarPair.Key)
+                Next
 
+                SyncLock (Me)
                     Me.PolyMerkez.X = Me.PolyMerkez.X + (MouseMoveXFark)
                     Me.PolyMerkez.Y = Me.PolyMerkez.Y + (MouseMoveYFark)
 

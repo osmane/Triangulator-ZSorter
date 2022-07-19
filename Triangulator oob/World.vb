@@ -540,6 +540,7 @@
                                     If ClosingPointNo = 0 Then
                                         ClosingPointNo = TotalNoktaList.Count - 1
                                     End If
+                                    YenilenecekKenarEkle(tmpUcgen.KenarList)
                                     tmpUcgen.KenarList.Clear()
 
                                     tmpUcgen.KenarList.AddRange(TmpUcgenList.Item(0).KenarList)
@@ -909,6 +910,7 @@
                                         If ClosingPointNo = 0 Then
                                             ClosingPointNo = TotalNoktaList.Count - 1
                                         End If
+                                        YenilenecekKenarEkle(tmpUcgen.KenarList)
                                         tmpUcgen.KenarList.Clear()
 
                                         tmpUcgen.KenarList.AddRange(TmpUcgenList(0).KenarList)
@@ -1633,6 +1635,7 @@
                 TotalNoktaList(tmpFreeUcgenList((FreeUcgenSay + 1) Mod 3).KenarList(1).KarsiNoktaNo).AralikList(tmpFreeUcgenList((FreeUcgenSay + 1) Mod 3).KenarList(1).KarsiNoktaAralikNo).UcgenNo = tmpFreeUcgenList((FreeUcgenSay + 1) Mod 3).KendiNo
                 TotalNoktaList(tmpFreeUcgenList((FreeUcgenSay + 2) Mod 3).KenarList(2).KarsiNoktaNo).AralikList(tmpFreeUcgenList((FreeUcgenSay + 2) Mod 3).KenarList(2).KarsiNoktaAralikNo).UcgenNo = tmpFreeUcgenList((FreeUcgenSay + 2) Mod 3).KendiNo
             Next
+            YenilenecekKenarEkle(HangiUcgen.KenarList)
             HangiUcgen.KenarList.Clear()
             HangiUcgen.KenarList.AddRange(tmpFreeUcgenList(0).KenarList)
             TotalUcgenList.Add(tmpFreeUcgenList(1))
@@ -2409,6 +2412,9 @@
                             TotalUcgenList(Kenar3.KomsuNo).KenarList(Kenar3.KomsudaKacinciKenarNo).KomsudaKacinciKenarNo = 2
                             TotalUcgenList(Kenar3.KomsuNo).KenarList(Kenar3.KomsudaKacinciKenarNo).KomsuNo = Ucgen1No
                         End If
+                        YenilenecekKenarEkle(Ucgen1.KenarList)
+                        YenilenecekKenarEkle(TotalUcgenList(Ucgen2No).KenarList)
+                        YenilenecekKenarEkle(TotalUcgenList(Ucgen3No).KenarList)
                         Ucgen1.KenarList.Clear()
                         Ucgen1.KenarList.Add(Kenar1)
                         Ucgen1.KenarList.Add(Kenar2)
@@ -2422,6 +2428,7 @@
                         AramailkNoktasi = TotalNoktaList(Ucgen1.KenarList(0).Uc1NoktaNo)
                         Ucgen2.Disabled = True
                         Ucgen3.Disabled = True
+
                         UcgenSil(Ucgen2No)
                         UcgenSil(Ucgen3No)
 
@@ -2610,10 +2617,12 @@
             TakasUcgen2.KenarList.Add(BagKenari2)
             TakasUcgen2.KendiNo = KarsiUcgenNo
 
+            YenilenecekKenarEkle(bagBakanUcgen.KenarList)
             bagBakanUcgen.KenarList.Clear()
             bagBakanUcgen.KenarList.AddRange(TakasUcgen1.KenarList)
             bagBakanUcgen.KendiNo = BakanUcgenNo
 
+            YenilenecekKenarEkle(bagKarsiUcgen.KenarList)
             bagKarsiUcgen.KenarList.Clear()
             bagKarsiUcgen.KenarList.AddRange(TakasUcgen2.KenarList)
             bagKarsiUcgen.KendiNo = KarsiUcgenNo
@@ -2728,6 +2737,8 @@
             Loop
             If BosUcgenNo < ListSonUcgenNo Then
                 BosUcgen = TotalUcgenList(BosUcgenNo)
+
+                YenilenecekKenarEkle(BosUcgen.KenarList)
                 BosUcgen.KenarList.Clear()
                 BosUcgen.KenarList.AddRange(ListSonUcgen.KenarList)
                 BosUcgen.PolyEklendi = ListSonUcgen.PolyEklendi
@@ -2935,23 +2946,27 @@
         Public Sub YenilenecekKenarEkle(kenarlistesi As List(Of Kenar))
             For Each tmpKenar As Kenar In kenarlistesi.Where(Function(x) x.DisKenar = True)
                 Dim kenarKey, kenarKeyReverse As New KenarKey
-                kenarKey.Uc1 = tmpKenar.Uc1NoktaNo
-                kenarKey.Uc2 = tmpKenar.Uc2NoktaNo
 
-                kenarKeyReverse.Uc1 = tmpKenar.Uc2NoktaNo
-                kenarKeyReverse.Uc2 = tmpKenar.Uc1NoktaNo
+                If TotalNoktaList(tmpKenar.Uc1NoktaNo).Turemis = False And TotalNoktaList(tmpKenar.Uc2NoktaNo).Turemis = False Then
+                    kenarKey.Uc1 = tmpKenar.Uc1NoktaNo
+                    kenarKey.Uc2 = tmpKenar.Uc2NoktaNo
 
-                Dim kenar As Kenar = Nothing
+                    kenarKeyReverse.Uc1 = tmpKenar.Uc2NoktaNo
+                    kenarKeyReverse.Uc2 = tmpKenar.Uc1NoktaNo
 
-                If Not YenilenecekKenarlar.TryGetValue(kenarKey, kenar) Then
-                    YenilenecekKenarlar.TryGetValue(kenarKeyReverse, kenar)
-                End If
+                    Dim kenar As Kenar = Nothing
 
-                If (kenar Is Nothing) Then
-                    tmpKenar.Yenile = True
-                    YenilenecekKenarlar.Add(kenarKey, tmpKenar.Clone)
-                Else
-                    kenar.Yenile = True
+                    If Not YenilenecekKenarlar.TryGetValue(kenarKey, kenar) Then
+                        YenilenecekKenarlar.TryGetValue(kenarKeyReverse, kenar)
+                    End If
+
+                    If (kenar Is Nothing) Then
+                        tmpKenar.Yenile = True
+                        YenilenecekKenarlar.Add(kenarKey, tmpKenar.Clone)
+                    Else
+                        kenar.Yenile = True
+                    End If
+
                 End If
 
             Next

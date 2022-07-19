@@ -57,3 +57,5 @@ D:\MyProject\Triangulator ZSorter\Triangulator oob\obj\x86\Debug\Triangulator oo
 D:\MyProject\Triangulator ZSorter\Triangulator oob\obj\x86\Debug\Triangulator oob.exe
 D:\MyProject\Triangulator ZSorter\Triangulator oob\obj\x86\Debug\Triangulator oob.xml
 D:\MyProject\Triangulator ZSorter\Triangulator oob\obj\x86\Debug\Triangulator oob.pdb
+D:\MyProject\Triangulator ZSorter\Triangulator oob\obj\x86\Debug\Triangulator oob.vbproj.SuggestedBindingRedirects.cache
+D:\MyProject\Triangulator ZSorter\Triangulator oob\bin\Debug\Triangulator oob.exe.config

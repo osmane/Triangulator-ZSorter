@@ -116,7 +116,7 @@ Namespace Triangulator
         Dim gr As System.Drawing.Graphics
         Dim SelectedPolygonNo As Integer = -1
         Dim PolySelectMode As Boolean = False
-        Dim Elpen As New Pen(Color.Blue, 1)
+        Dim Elpen As Pen = New Pen(Color.Blue, 1)
         Dim GidenP1, GelenP1 As PointF
         Dim OrtaP As New PointF
         Dim tmpArray(2) As PointF
@@ -382,6 +382,7 @@ Namespace Triangulator
                         End If
                         Cemberlist.Clear()
                     End If
+
                     AddHandler pboxCanvas.MouseMove, AddressOf pboxCanvas_MouseMove
                 End If
 
@@ -425,6 +426,8 @@ Namespace Triangulator
                         Label1.Text = Label1.Text + " ÖnKesilenPoligon: " + EtkinGeo.OnKesilenDoluPoly.ToString
 
                         Label1.Text = Label1.Text + " BakanNokta: " + AramailkNoktasi.NoktaNo.ToString
+                        Label1.Text = Label1.Text + " KarşıKenarPolyDış: " + TotalUcgenList(EtkinGeo.UcgenNo).KenarList.Item(AramailkNoktasi.AralikList.Item(AralikSay).UcgeniciKarsiKenarNo).PolyKenar.ToString + " - " +
+                            TotalUcgenList(EtkinGeo.UcgenNo).KenarList.Item(AramailkNoktasi.AralikList.Item(AralikSay).UcgeniciKarsiKenarNo).DisKenar.ToString
                         If Cemberlist.Count > 0 Then
                             Label1.Text = Label1.Text + " HedefNokta: " + Cemberlist(Cemberlist.Count - 1).ToString
                         End If
@@ -554,6 +557,7 @@ Namespace Triangulator
                             If pNo > 3 Then
                                 ponceki = OsmXmlTreeCnt1.xml_document.LastChild.ChildNodes(pNo - 1)
                                 If ponceki.NodeType = XmlNodeType.Element And ponceki.Attributes.Count > 2 Then
+                                    'Basılacak yeni noktanın poligon numarası bir öncekinden farklıysa önceki poligonun kapatılması için son noktası tekrar basılıyor.
                                     If p.Attributes(2).Value <> ponceki.Attributes(2).Value Then
                                         TargetNokta.KendiYeri = TotalNoktaList(PolygonList(CInt(ponceki.Attributes(2).Value)).PolyNoktaList(0)).KendiYeri
                                         Me.world.Ucgenle(TotalNoktaList(PolygonList(CInt(ponceki.Attributes(2).Value)).PolyNoktaList(0)).KendiYeri, False, TargetNokta, PolygonList.Count - 1)
@@ -569,6 +573,7 @@ Namespace Triangulator
                     If (pNo > 3 And pNo = OsmXmlTreeCnt1.xml_document.LastChild.ChildNodes.Count - 1) Then
                         If p.Attributes.Count > 2 Then
                             Try
+                                'Son poligon kapatılıyor
                                 TargetNokta.KendiYeri = TotalNoktaList(PolygonList(CInt(p.Attributes(2).Value)).PolyNoktaList(0)).KendiYeri
                                 Me.world.Ucgenle(TargetNokta.KendiYeri, False, TargetNokta, PolygonList.Count - 1)
                             Catch ex As Exception

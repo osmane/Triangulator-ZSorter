@@ -42,7 +42,6 @@ Namespace Triangulator
         Public doMove As Boolean
         Dim lineerpen As Pen
         Dim angularpen As Pen
-
         Property PolyMoveEnabled As Boolean
             Get
                 PolyMoveEnabled = Me.world.PolyMoveEnabled
@@ -207,6 +206,9 @@ Namespace Triangulator
 
             Dim MouseMoveXFark As Double = Me.VelocityX
             Dim MouseMoveYFark As Double = Me.VelocityY
+
+            Dim BoyamaKenari1 As Kenar
+            Dim tmpCounter As Integer = 0
             CollisionFound = False
             'CollTestKenar0, CollTestKenar1, CollTestKenar2,
             PoinLineIntList.Clear()
@@ -217,11 +219,16 @@ Namespace Triangulator
             'PolyMoveXFark: noktaların hareket farkı
             'MouseMoveXFark: merkezin hareket farkı
             If MovedPolygonNo > -1 Then
-                Angle -= Me.VelocityW * (180 / PI)
+                'Angle -= Me.VelocityW * (180 / PI)
                 PolyMoveEnabled = False
                 Do
 
                     MovingNokta = TotalNoktaList(Me.PolyNoktaList(MoveNoktaSay))
+                    'test code Begin
+                    If MovingNokta.NoktaNo = 17 Then
+                        tmpCounter += 1
+                    End If
+                    'test Code End
 
                     MovingNokta.Aci -= Me.VelocityW * (180 / PI)
                     PolyMoveXFark = (Me.PolyMerkez.X + (MovingNokta.Uzaklik * Cos(MovingNokta.Aci * (PI / 180))) + (MouseMoveXFark)) - MovingNokta.KendiYeri.X
@@ -306,25 +313,13 @@ Namespace Triangulator
                                                 GerisayNokta.DisableList.Clear()
                                             End If
 
-                                            GerisayNokta.KendiYeri.X = GerisayNokta.KendiYeri.X - GerisayNokta.Moving.X
-                                            GerisayNokta.KendiYeri.Y = GerisayNokta.KendiYeri.Y - GerisayNokta.Moving.Y
-                                            GerisayNokta.OldMoving = GerisayNokta.Moving
-                                            GerisayNokta.Moving.X = 0
-                                            GerisayNokta.Moving.Y = 0
                                             If GerisayNokta.NoktaSilindi = True Then
                                                 'oob
                                                 Me.world.ReNewEdge(GerisayNokta, MovedPolygonNo, gerisay)
                                                 'oob
                                             End If
-                                            'BirNoktaSilindi = GerisayNokta.NoktaSilindi
                                         Next
-                                        PolyMoveXFark = 0
-                                        PolyMoveYFark = 0
-                                        MouseMoveXFark = 0
-                                        MouseMoveYFark = 0
-                                        Me.WriteMinRotations()
-                                        Me.PolyMerkez.X = Me.PolyMerkez.X - (MouseMoveXFark)
-                                        Me.PolyMerkez.Y = Me.PolyMerkez.Y - (MouseMoveYFark)
+
                                         Exit Do
                                         'Else
 
@@ -347,320 +342,99 @@ Namespace Triangulator
                     End SyncLock
                 Loop
 
+
+
+                Dim silinecekKenarStartCount As Integer = world.YenilenecekKenarlar.Count
+
+                    For Each kenarPair As KeyValuePair(Of World.KenarKey, Kenar) In world.YenilenecekKenarlar
+                        Dim reKenar As Kenar = kenarPair.Value
+                        Dim uc1Nokta As Nokta = TotalNoktaList(reKenar.Uc1NoktaNo)
+                        Dim uc2Nokta As Nokta = TotalNoktaList(reKenar.Uc2NoktaNo)
+
+                        If uc2Nokta.NoktaSilindi = False And uc1Nokta.NoktaSilindi = False Then
+
+                            For Araliksay3 = 0 To uc1Nokta.AralikList.Count - 1
+
+                                If uc1Nokta.AralikList(Araliksay3).Disabled = False Then
+
+                                    Dim Arakenar As Kenar = TotalUcgenList(uc1Nokta.AralikList(Araliksay3).UcgenNo).KenarList(uc1Nokta.AralikList(Araliksay3).UcgeniciKarsiKenarNo)
+                                    If uc1Nokta.AralikList(Araliksay3).GidenUcNo <> uc2Nokta.NoktaNo And uc1Nokta.AralikList(Araliksay3).GelenUcNo <> uc2Nokta.NoktaNo Then
+                                        If CollKesisimHesapla(Arakenar, uc1Nokta, uc2Nokta.KendiYeri, 0, TotalNoktaList).Durum > 0 Then
+                                            rneAnswer = PointToPointQuery2(uc1Nokta, uc2Nokta.KendiYeri, False, uc1Nokta.AralikList(Araliksay3), 0, TotalNoktaList, TotalUcgenList)
+                                            rneAnswer = Me.world.KosedenKoseyeBagla(uc2Nokta, uc1Nokta, uc1Nokta.AralikList(Araliksay3), True, rneAnswer, reKenar.KenarPolyNo)
+
+                                            If rneAnswer.Connected = False And rneAnswer.OncekiDoluKenar IsNot Nothing Then
+                                                rneAnswer.karsiNokta = uc2Nokta
+                                                Exit For
+                                            Else
+
+                                                BoyamaKenari1 = TotalUcgenList(rneAnswer.EarSonUcgen).KenarList(2)
+                                                BoyamaKenari1.PolyKenar = False
+                                                BoyamaKenari1.DisKenar = True
+                                                BoyamaKenari1.KenarPolyNo = reKenar.KenarPolyNo
+                                                TotalUcgenList(BoyamaKenari1.KomsuNo).KenarList(BoyamaKenari1.KomsudaKacinciKenarNo).PolyKenar = False
+                                                TotalUcgenList(BoyamaKenari1.KomsuNo).KenarList(BoyamaKenari1.KomsudaKacinciKenarNo).DisKenar = True
+                                                TotalUcgenList(BoyamaKenari1.KomsuNo).KenarList(BoyamaKenari1.KomsudaKacinciKenarNo).KenarPolyNo = reKenar.KenarPolyNo
+                                                Me.world.KenardanUcgenBoya(BoyamaKenari1, rneAnswer.EarSonUcgen, reKenar.KenarPolyNo)
+                                                reKenar.Yenile = False
+                                                Exit For
+                                            End If
+                                        End If
+                                    Else
+                                        If uc1Nokta.AralikList(Araliksay3).GidenUcNo = uc2Nokta.NoktaNo Then
+                                            BoyamaKenari1 = TotalUcgenList(uc1Nokta.AralikList(Araliksay3).UcgenNo).KenarList(uc1Nokta.AralikList(Araliksay3).UcgeniciGidenKenarNo)
+                                            BoyamaKenari1.PolyKenar = False
+                                            BoyamaKenari1.DisKenar = True
+                                            BoyamaKenari1.KenarPolyNo = reKenar.KenarPolyNo
+                                            TotalUcgenList(BoyamaKenari1.KomsuNo).KenarList(BoyamaKenari1.KomsudaKacinciKenarNo).PolyKenar = False
+                                            TotalUcgenList(BoyamaKenari1.KomsuNo).KenarList(BoyamaKenari1.KomsudaKacinciKenarNo).DisKenar = True
+                                            TotalUcgenList(BoyamaKenari1.KomsuNo).KenarList(BoyamaKenari1.KomsudaKacinciKenarNo).KenarPolyNo = reKenar.KenarPolyNo
+                                            Me.world.KenardanUcgenBoya(BoyamaKenari1, uc1Nokta.AralikList(Araliksay3).UcgenNo, uc1Nokta.NoktaPolyNo)
+                                            reKenar.Yenile = False
+                                            Exit For
+                                        End If
+                                        If uc1Nokta.AralikList(Araliksay3).GelenUcNo = uc2Nokta.NoktaNo Then
+                                            BoyamaKenari1 = TotalUcgenList(uc1Nokta.AralikList(Araliksay3).UcgenNo).KenarList(uc1Nokta.AralikList(Araliksay3).UcgeniciGelenKenarNo)
+                                            BoyamaKenari1.PolyKenar = False
+                                            BoyamaKenari1.DisKenar = True
+                                            BoyamaKenari1.KenarPolyNo = reKenar.KenarPolyNo
+                                            TotalUcgenList(BoyamaKenari1.KomsuNo).KenarList(BoyamaKenari1.KomsudaKacinciKenarNo).PolyKenar = False
+                                            TotalUcgenList(BoyamaKenari1.KomsuNo).KenarList(BoyamaKenari1.KomsudaKacinciKenarNo).DisKenar = True
+                                            TotalUcgenList(BoyamaKenari1.KomsuNo).KenarList(BoyamaKenari1.KomsudaKacinciKenarNo).KenarPolyNo = reKenar.KenarPolyNo
+                                            Me.world.KenardanUcgenBoya(BoyamaKenari1, uc1Nokta.AralikList(Araliksay3).UcgenNo, uc1Nokta.NoktaPolyNo)
+                                            reKenar.Yenile = False
+                                            Exit For
+                                        End If
+
+                                    End If
+                                Else
+                                End If
+                            Next
+                        End If
+
+                        If silinecekKenarStartCount <> world.YenilenecekKenarlar.Count Then
+                            Exit For
+                        End If
+                    Next
+
+                For Each kenarPair In world.YenilenecekKenarlar.Where(Function(x) x.Value.Yenile = False).ToList()
+                    world.YenilenecekKenarlar.Remove(kenarPair.Key)
+                Next
+
                 SyncLock (Me)
-                    If CollisionFound = False Then
-                        Me.PolyMerkez.X = Me.PolyMerkez.X + (MouseMoveXFark)
-                        Me.PolyMerkez.Y = Me.PolyMerkez.Y + (MouseMoveYFark)
+                    Me.PolyMerkez.X = Me.PolyMerkez.X + (MouseMoveXFark)
+                    Me.PolyMerkez.Y = Me.PolyMerkez.Y + (MouseMoveYFark)
 
-                        'For MoveNoktaSay = 0 To Me.PolyNoktaList.Count - 1
-                        '    MovingNokta = TotalNoktaList(Me.PolyNoktaList(MoveNoktaSay))
-                        '    'If ChkBozukBul1.Checked = True Then
-                        '    '    BozukUcgenBul()
-                        '    '    If FatalError Then Exit Sub
-                        '    'End If
-                        'Next
-                    ElseIf rneAnswer.SonKesilenDoluPoly > -1 Then
-                        Dim coll As New Collision
-                        Dim normalnokta As New Nokta(Me.world)
-                        Dim impNokta As New Nokta(Me.world)
-                        Dim NormalUc1 As New Nokta(Me.world)
-                        Dim NormalUc2 As New Nokta(Me.world)
-                        Dim OldMoveLoc As PointF
-                        Dim NormalAci As Double
-                        Dim izduscevap As KesisimCevap
-                        Dim DikPoint As PointF
-                        Dim OtherPolygon As Polygon
-
-                        ColledKenar = Nothing
-                        If rneAnswer.Poligonized = True Then
-                            'OldMoveLoc.X = MovingNokta.KendiYeri.X - MovingNokta.OldMoving.X
-                            'OldMoveLoc.Y = MovingNokta.KendiYeri.Y - MovingNokta.OldMoving.Y
-                            'For AralikSay = 0 To MovingNokta.AralikList.Count - 1
-                            '    If MovingNokta.AralikList(AralikSay).Disabled = False Then
-                            '        EtkinGeo = PointToPointQuery2(MovingNokta, OldMoveLoc, False, MovingNokta.AralikList(AralikSay), 0, TotalNoktaList, TotalUcgenList)
-                            '        If EtkinGeo.Durum = 2 Then
-                            '            ColledKenar = EtkinGeo.ilKesilenDiskenar
-                            '            impNokta.KendiYeri = EtkinGeo.KesNok
-                            '            Exit For
-                            '        End If
-                            '    End If
-                            'Next
-                            'If ColledKenar Is Nothing Then
-                            '    For AralikSay = 0 To MovingNokta.AralikList.Count - 1
-                            '        If MovingNokta.AralikList(AralikSay).Disabled = False Then
-                            '            EtkinGeo = PointToPointQuery2(MovingNokta, OldMoveLoc, False, MovingNokta.AralikList(AralikSay), 0, TotalNoktaList, TotalUcgenList)
-                            '            If EtkinGeo.Durum = 1 Then
-                            '                ColledKenar = TotalUcgenList(MovingNokta.AralikList(AralikSay).UcgenNo).KenarList(MovingNokta.AralikList(AralikSay).UcgeniciKarsiKenarNo)
-                            '                impNokta.KendiYeri = EtkinGeo.KesNok
-                            '                Exit For
-                            '            End If
-                            '        End If
-                            '    Next
-                            'End If
-                            ColledKenar = MovingNokta.darKarsi
-                            impNokta.KendiYeri = MovingNokta.KendiYeri
-                        Else
-                            ColledKenar = New Kenar
-                            Dim sonrakiNoktaNo1, sonrakiNoktaNo2, sonrakiNoktaNo As Integer
-                            sonrakiNoktaNo1 = (((MovingNokta.NoktaNo - Me.PolyNoktaList(0)) + 1) Mod (Me.PolyNoktaList.Count)) + Me.PolyNoktaList(0)
-                            Dim testAci1 = GetAngle(MovingNokta.KendiYeri, rneAnswer.KesNok, TotalNoktaList(sonrakiNoktaNo1).KendiYeri)
-
-                            sonrakiNoktaNo2 = MovingNokta.NoktaNo - 1
-                            If sonrakiNoktaNo2 < Me.PolyNoktaList(0) Then sonrakiNoktaNo2 = Me.PolyNoktaList(Me.PolyNoktaList.Count - 1)
-                            Dim testAci2 = GetAngle(MovingNokta.KendiYeri, rneAnswer.KesNok, TotalNoktaList(sonrakiNoktaNo2).KendiYeri)
-
-                            If (Abs(180 - testAci1)) < (Abs(180 - testAci2)) Then
-                                sonrakiNoktaNo = sonrakiNoktaNo1
-                            Else
-                                sonrakiNoktaNo = sonrakiNoktaNo2
-                            End If
-
-                            ColledKenar.Uc1NoktaNo = MovingNokta.NoktaNo
-                            ColledKenar.Uc2NoktaNo = sonrakiNoktaNo
-
-                            impNokta.KendiYeri = rneAnswer.KesNok
-                        End If
-                        ColledKenar.Angle = AciBul(TotalNoktaList(ColledKenar.Uc1NoktaNo).KendiYeri, TotalNoktaList(ColledKenar.Uc2NoktaNo).KendiYeri)
-
-                        Dim RealCollKenar As Kenar = ColledKenar
-                        impNokta.KendiYeri = PointLineIntsct(RealCollKenar, impNokta.KendiYeri).KesisimNok
-                        'Dim stepval As Integer
-                        'For adddiff As Integer = 1 To 20
-                        '    If rneAnswer.OncekiDoluKenar.Uc1NoktaNo < rneAnswer.OncekiDoluKenar.Uc2NoktaNo Then stepval = 1 Else stepval = -1
-                        '    For OtherNoktaNo As Integer = rneAnswer.OncekiDoluKenar.Uc1NoktaNo To rneAnswer.OncekiDoluKenar.Uc2NoktaNo Step stepval
-
-                        '        ColledKenar = FindCollisionEdge(MovingNokta, TotalNoktaList(OtherNoktaNo), adddiff, rneAnswer.Poligonized)
-
-                        '        If ColledKenar IsNot Nothing Then Exit For
-                        '    Next
-                        '    If ColledKenar IsNot Nothing Then Exit For
-                        'Next
-
-                        'If ColledKenar Is Nothing Then
-                        '    For adddiff As Integer = 1 To 20
-                        '        For OtherNoktaNo As Integer = PolygonList(rneAnswer.SonKesilenDoluPoly).PolyNoktaList(0) To PolygonList(rneAnswer.SonKesilenDoluPoly).PolyNoktaList(PolygonList(rneAnswer.SonKesilenDoluPoly).PolyNoktaList.Count - 1)
-
-                        '            ColledKenar = FindCollisionEdge(MovingNokta, TotalNoktaList(OtherNoktaNo), adddiff, rneAnswer.Poligonized)
-
-                        '            If ColledKenar IsNot Nothing Then Exit For
-                        '        Next
-                        '        If ColledKenar IsNot Nothing Then Exit For
-                        '    Next
-                        'End If
-                        'Dim RealCollKenar As Kenar = getRealKenar(ColledKenar)
-
-                        'impNokta = TotalNoktaList(ColledKenar.ImpactNoktaNo)
-                        'RealCollKenar.Angle = AciBul(TotalNoktaList(RealCollKenar.Uc1NoktaNo).KendiYeri, TotalNoktaList(RealCollKenar.Uc2NoktaNo).KendiYeri)
-
-                        'If impNokta.NoktaPolyNo = MovedPolygonNo Then
-                        '    OtherPolygon = PolygonList(TotalNoktaList(ColledKenar.Uc1NoktaNo).NoktaPolyNo)
-                        '    OtherPolygon.PolyPolyNo = TotalNoktaList(ColledKenar.Uc1NoktaNo).NoktaPolyNo
-                        'Else
-                        '    OtherPolygon = PolygonList(impNokta.NoktaPolyNo)
-                        '    OtherPolygon.PolyPolyNo = impNokta.NoktaPolyNo
-                        'End If
-                        OtherPolygon = PolygonList(rneAnswer.SonKesilenDoluPoly)
-                        OtherPolygon.PolyPolyNo = rneAnswer.SonKesilenDoluPoly
-                        normalnokta.Color = Color.Green
-
-                        If rneAnswer.Poligonized = False Then
-                            OldMoveLoc.X = impNokta.KendiYeri.X + MovingNokta.OldMoving.X
-                            OldMoveLoc.Y = impNokta.KendiYeri.Y + MovingNokta.OldMoving.Y
-                        Else
-                            OldMoveLoc.X = impNokta.KendiYeri.X - MovingNokta.OldMoving.X
-                            OldMoveLoc.Y = impNokta.KendiYeri.Y - MovingNokta.OldMoving.Y
-                        End If
-
-                        'yapilacak: kenar normalleri poligon çizilirken hesaplanacak, burada rotate değeri eklenecek.
-
-                        izduscevap = PointLineIntsct(RealCollKenar, OldMoveLoc)
-
-                        DikPoint.X = impNokta.KendiYeri.X + (OldMoveLoc.X - izduscevap.KesisimNok.X)
-                        DikPoint.Y = impNokta.KendiYeri.Y + (OldMoveLoc.Y - izduscevap.KesisimNok.Y)
-
-                        NormalAci = AciBul(impNokta.KendiYeri, DikPoint)
+                    'For MoveNoktaSay = 0 To Me.PolyNoktaList.Count - 1
+                    '    MovingNokta = TotalNoktaList(Me.PolyNoktaList(MoveNoktaSay))
+                    '    'If ChkBozukBul1.Checked = True Then
+                    '    '    BozukUcgenBul()
+                    '    '    If FatalError Then Exit Sub
+                    '    'End If
+                    'Next
 
 
-                        'normalnokta.KendiYeri.X = impNokta.KendiYeri.X + (30 * Cos((NormalAci) * (PI / 180)))
-                        'normalnokta.KendiYeri.Y = impNokta.KendiYeri.Y - (30 * Sin((NormalAci) * (PI / 180)))
-                        normalnokta.KendiYeri.X = (Cos((NormalAci) * (PI / 180)))
-                        normalnokta.KendiYeri.Y = -(Sin((NormalAci) * (PI / 180)))
-
-                        Dim EdgeNormal As New Kenar
-                        EdgeNormal.start = impNokta.KendiYeri
-                        EdgeNormal.finish.X = impNokta.KendiYeri.X + (50 * Cos((NormalAci) * (PI / 180)))
-                        EdgeNormal.finish.Y = impNokta.KendiYeri.Y + -(50 * Sin((NormalAci) * (PI / 180)))
-                        NormalList.Add(EdgeNormal)
-
-                        coll.Rx = ColledKenar.Uc1NoktaNo
-                        coll.Ry = ColledKenar.Uc2NoktaNo
-                        coll.normalX = normalnokta.KendiYeri.X
-                        coll.normalY = normalnokta.KendiYeri.Y
-                        coll.impactX = impNokta.KendiYeri.X
-                        coll.impactY = impNokta.KendiYeri.Y
-                        'OtherPolygon.mass = 10
-                        'Me.mass = 0.000001
-                        Me.PolyPolyNo = MovedPolygonNo
-
-                        'testcode start
-                        'If Me.NewColl IsNot Nothing Then
-                        '    Console.WriteLine("meNewCollimpactx: " + Me.NewColl.impactX.ToString + " MeNewCollimpactY: " + Me.NewColl.impactY.ToString)
-                        '    tmpcoll.impactX = Me.NewColl.impactX
-                        '    tmpcoll.impactY = Me.NewColl.impactY
-                        '    tmpcoll.normalX = Me.NewColl.normalX
-                        '    tmpcoll.normalY = Me.NewColl.normalY
-                        'End If
-                        'If OtherPolygon.NewColl IsNot Nothing Then
-                        '    Console.WriteLine("otherNewCollimpactx: " + OtherPolygon.NewColl.impactX.ToString + " otherNewCollimpactY: " + OtherPolygon.NewColl.impactY.ToString)
-                        'End If
-                        'Console.WriteLine("collimpactx :" + coll.impactX.ToString + " collimpacty: " + coll.impactY.ToString + Environment.NewLine)
-                        'testcode finish
-                        Me.NewColl = coll
-                        OtherPolygon.NewColl = coll
-                        Me.VelocityW = 0
-                        If Me.NewColl.isEqual(Me.OldColl) = False And Me.NewColl.isEqual(OtherPolygon.OldColl) = False Then
-                            doMove = True
-                            OtherPolygon.doMove = True
-                            If world.logImpacts Then
-
-                                Form1.LogToFile("AfterMe: " & Me.PolyPolyNo.ToString & " Center: " & Me.PolyMerkez.ToString _
-                                            & " Xvel: " & Me.VelocityX.ToString & " Yvel: " & Me.VelocityY.ToString & " Wvel :" & Me.VelocityW & " MeoldCollX: " & Me.OldColl.impactX.ToString & " MeoldCollY: " & Me.OldColl.impactY.ToString, "impLog.txt")
-                                Form1.LogToFile("AfterOt: " & OtherPolygon.PolyPolyNo.ToString & " Center: " & OtherPolygon.PolyMerkez.ToString _
-                                                & " Xvel: " & OtherPolygon.VelocityX.ToString & " Yvel: " & OtherPolygon.VelocityY.ToString & " Wvel :" & OtherPolygon.VelocityW _
-                                                & " Normal: " & normalnokta.KendiYeri.ToString, "impLog.txt")
-
-                                addImpact(coll, OtherPolygon, Me)
-
-                                Form1.LogToFile("BeforeMe: " & Me.PolyPolyNo.ToString & " Center: " & Me.PolyMerkez.ToString _
-                                              & " Xvel: " & Me.VelocityX.ToString & " Yvel: " & Me.VelocityY.ToString & " Wvel :" & Me.VelocityW, "impLog.txt")
-                                Form1.LogToFile("BeforeOt: " & OtherPolygon.PolyPolyNo.ToString & " Center: " & OtherPolygon.PolyMerkez.ToString _
-                                                & " Xvel: " & OtherPolygon.VelocityX.ToString & " Yvel: " & OtherPolygon.VelocityY.ToString & " Wvel :" _
-                                                & OtherPolygon.VelocityW & impNokta.KendiYeri.ToString & Environment.NewLine, "impLog.txt")
-                            Else
-                                'addImpact(coll, Me, OtherPolygon)
-                                addImpact(coll, OtherPolygon, Me)
-                            End If
-
-                            OtherPolygon.OldColl = coll
-                            Me.OldColl = coll
-
-                            Dim OtherPolyTargetnok As New Nokta(Me.world)
-                            Dim OtherPolyTarget As PointF
-                            OtherPolyTargetnok.Color = Color.Red
-                            OtherPolyTarget.X = OtherPolygon.PolyMerkez.X + OtherPolygon.VelocityX * 10
-                            OtherPolyTarget.Y = OtherPolygon.PolyMerkez.Y + OtherPolygon.VelocityY * 10
-                            OtherPolygon.VelocityW = OtherPolygon.VelocityW * 1.5
-
-                            Dim MovedPolyTargetnok As New Nokta(Me.world)
-                            Dim MovedPolyTarget As PointF
-                            MovedPolyTargetnok.Color = Color.Gray
-
-
-                            MovedPolyTargetnok.KendiYeri.X = MovedPolyTarget.X
-                            MovedPolyTargetnok.KendiYeri.Y = MovedPolyTarget.Y
-                            PoinLineIntList.Add(MovedPolyTargetnok)
-
-                            OtherPolyTargetnok.KendiYeri.X = OtherPolyTarget.X
-                            OtherPolyTargetnok.KendiYeri.Y = OtherPolyTarget.Y
-                            PoinLineIntList.Add(OtherPolyTargetnok)
-                            'testcode start
-                            'OtherPolygon.VelocityX = 0
-                            'OtherPolygon.VelocityY = 0
-                            'OtherPolygon.VelocityW = 0
-                            'testcode finish
-                            'oob
-
-                            'OtherPolygon.PolyMoveHypo = 0
-                            'Me.PolyMoveHypo = 0
-                            '    OtherPolygon.NewPolyMoveHypo = 0
-                            '    Me.NewPolyMoveHypo = 0
-                            If MesafeHesapla(OtherPolygon.PolyMerkez, OtherPolyTarget) >= 2 Then
-                                OtherPolygon.BasicPolyMove(OtherPolyTarget, False)
-                                OtherPolygon.VelocityW = 0
-                            Else
-                                OtherPolygon.doMove = False
-                                OtherPolygon.VelocityX = 0
-                                OtherPolygon.VelocityY = 0
-                                OtherPolygon.VelocityW = 0
-                            End If
-
-                            Dim lineerLine As New Kenar
-                            lineerLine.start = OtherPolygon.PolyMerkez
-                            lineerLine.finish.X = OtherPolygon.PolyMerkez.X + (OtherPolygon.VelocityX * 20)
-                            lineerLine.finish.Y = OtherPolygon.PolyMerkez.Y + (OtherPolygon.VelocityY * 20)
-                            lineerLine.Kalem = lineerpen
-                            DrectionList.Add(lineerLine)
-
-                            Dim angularline As New Kenar
-                            angularline.start = OtherPolygon.PolyMerkez
-                            angularline.finish.X = OtherPolygon.PolyMerkez.X + 50 * Cos(OtherPolygon.Angle * (PI / 180))
-                            angularline.finish.Y = OtherPolygon.PolyMerkez.Y - 50 * Sin(OtherPolygon.Angle * (PI / 180))
-                            angularline.Kalem = angularpen
-                            DrectionList.Add(angularline)
-
-                            MovedPolyTarget.X = Me.PolyMerkez.X + Me.VelocityX * 10
-                            MovedPolyTarget.Y = Me.PolyMerkez.Y + Me.VelocityY * 10
-                            If MesafeHesapla(Me.PolyMerkez, MovedPolyTarget) >= 2 Then
-                                'Me.BasicPolyMove(MovedPolyTarget, False)
-                                Me.VelocityW = 0
-                            Else
-                                Me.doMove = False
-                                Me.VelocityX = 0
-                                Me.VelocityY = 0
-                                Me.VelocityW = 0
-                            End If
-
-
-                            'Exit Sub
-                            'Me.VelocityX = 0
-                            'Me.VelocityY = 0
-                            'Me.VelocityW = 0
-                        Else
-                            doMove = False
-                            OtherPolygon.doMove = False
-                            OtherPolygon.VelocityX = 0
-                            OtherPolygon.VelocityY = 0
-                            OtherPolygon.VelocityW = 0
-                        End If
-
-                        NormalUc1.Color = Color.Blue
-                        NormalUc2.Color = Color.Violet
-                        Dim OtherCenter As New Nokta(Me.world)
-                        OtherCenter.KendiYeri = OtherPolygon.PolyMerkez
-                        OtherCenter.Color = Color.Yellow
-                        'PoinLineIntList.Add(OtherCenter)
-                        'If ColledKenar Is Nothing Then
-                        '    ColledKenar = rneAnswer.OncekiDoluKenar
-                        '    NormalUc1.Color = Color.Green
-                        '    NormalUc2.Color = Color.Green
-                        'End If
-
-
-                        'MovingNokta.Color = Color.Orange
-
-                        'NormalUc1 = TotalNoktaList(rneAnswer.OncekiDoluKenar.Uc1NoktaNo)
-                        'NormalUc2 = TotalNoktaList(rneAnswer.OncekiDoluKenar.Uc2NoktaNo)
-
-                        If (ColledKenar IsNot (Nothing)) Then
-                            NormalUc1.NoktaNo = ColledKenar.Uc1NoktaNo
-                            NormalUc2.NoktaNo = ColledKenar.Uc2NoktaNo
-                            NormalUc1.KendiYeri = TotalNoktaList(ColledKenar.Uc1NoktaNo).KendiYeri
-                            NormalUc2.KendiYeri = TotalNoktaList(ColledKenar.Uc2NoktaNo).KendiYeri
-                            'If (NormalUc1.NoktaPolyNo = NormalUc2.NoktaPolyNo) Then
-                            '    NormalUc1.Color = Color.Blue
-                            '    NormalUc2.Color = Color.Violet
-                            'Else
-                            '    NormalUc1.Color = Color.Red
-                            '    NormalUc2.Color = Color.Red
-                            'End If
-                            PoinLineIntList.Add(NormalUc1)
-                            PoinLineIntList.Add(NormalUc2)
-                            'PoinLineIntList.Add(normalnokta)
-
-                        End If
-                        PoinLineIntList.Add(impNokta)
-
-                    End If
+                    'yapilacak: kenar normalleri poligon çizilirken hesaplanacak, burada rotate değeri eklenecek.
                 End SyncLock
                 'PolyMoveEnabled = True
                 'Application.DoEvents()

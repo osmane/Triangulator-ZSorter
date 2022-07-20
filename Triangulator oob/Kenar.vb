@@ -30,6 +30,7 @@
         Public start As PointF
         Public finish As PointF
         Public Kalem As Pen
+        Public Yenile As Boolean = False
 
 
         Public Function isEqual(ByVal MatchedKenar As Kenar) As Boolean

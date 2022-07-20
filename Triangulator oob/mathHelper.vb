@@ -75,10 +75,10 @@ Namespace Triangulator
             y4 = FinishNokta.Y
 
             a1 = (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))
-            a2 = (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))
+            'a2 = (((x1 - x2) * (y3 - y4)) - ((y1 - y2) * (x3 - x4)))
             If a1 <> 0 Then
                 xi = ((((x1 * y2) - (y1 * x2)) * (x3 - x4)) - ((x1 - x2) * ((x3 * y4) - (y3 * x4)))) / a1
-                yi = ((((x1 * y2) - (y1 * x2)) * (y3 - y4)) - ((y1 - y2) * ((x3 * y4) - (y3 * x4)))) / a2
+                yi = ((((x1 * y2) - (y1 * x2)) * (y3 - y4)) - ((y1 - y2) * ((x3 * y4) - (y3 * x4)))) / a1
                 KesisimNokta.KesisimNok.X = xi
                 KesisimNokta.KesisimNok.Y = yi
 
@@ -158,7 +158,7 @@ Namespace Triangulator
 
             Else
                 KesisimNokta.Durum = 0
-                If a2 = 0 Then KesisimNokta.SifirKesisim = True
+                If a1 = 0 Then KesisimNokta.SifirKesisim = True
             End If
 
             Return KesisimNokta

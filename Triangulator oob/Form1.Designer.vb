@@ -56,6 +56,8 @@ Partial Class Form1
             Me.chkImpLog = New System.Windows.Forms.CheckBox()
             Me.chkMove = New System.Windows.Forms.CheckBox()
             Me.BtnSave = New System.Windows.Forms.Button()
+            Me.ListView2 = New System.Windows.Forms.ListView()
+            Me.Kenarlar = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
             Me.TabControl1.SuspendLayout()
             Me.tabCanvas.SuspendLayout()
             CType(Me.pboxCanvas, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -178,6 +180,7 @@ Partial Class Form1
             '
             Me.ListView1.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ClmCombos, Me.ColumnHeader3})
             Me.ListView1.GridLines = True
+            Me.ListView1.HideSelection = False
             Me.ListView1.Location = New System.Drawing.Point(4, 4)
             Me.ListView1.Margin = New System.Windows.Forms.Padding(2)
             Me.ListView1.Name = "ListView1"
@@ -336,19 +339,32 @@ Partial Class Form1
             Me.BtnSave.Text = "SaveMap"
             Me.BtnSave.UseVisualStyleBackColor = True
             '
+            'ListView2
+            '
+            Me.ListView2.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.Kenarlar})
+            Me.ListView2.GridLines = True
+            Me.ListView2.HideSelection = False
+            Me.ListView2.Location = New System.Drawing.Point(832, 484)
+            Me.ListView2.Name = "ListView2"
+            Me.ListView2.Size = New System.Drawing.Size(155, 216)
+            Me.ListView2.TabIndex = 45
+            Me.ListView2.UseCompatibleStateImageBehavior = False
+            Me.ListView2.View = System.Windows.Forms.View.Details
+            '
             'Form1
             '
             Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
             Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
             Me.ClientSize = New System.Drawing.Size(1004, 770)
+            Me.Controls.Add(Me.ListView2)
             Me.Controls.Add(Me.BtnSave)
             Me.Controls.Add(Me.chkMove)
             Me.Controls.Add(Me.chkImpLog)
             Me.Controls.Add(Me.TxtJump)
-        Me.Controls.Add(Me.BtnJump)
-        Me.Controls.Add(Me.BtnClearAnim)
-        Me.Controls.Add(Me.BtnLoadAnim)
-        Me.Controls.Add(Me.BtnSaveAnim)
+            Me.Controls.Add(Me.BtnJump)
+            Me.Controls.Add(Me.BtnClearAnim)
+            Me.Controls.Add(Me.BtnLoadAnim)
+            Me.Controls.Add(Me.BtnSaveAnim)
         Me.Controls.Add(Me.sbarAnim)
         Me.Controls.Add(Me.btnLoad)
         Me.Controls.Add(Me.ChkPolySel)
@@ -411,5 +427,7 @@ End Sub
         Friend WithEvents chkImpLog As System.Windows.Forms.CheckBox
         Friend WithEvents chkMove As System.Windows.Forms.CheckBox
         Friend WithEvents BtnSave As System.Windows.Forms.Button
+        Friend WithEvents ListView2 As ListView
+        Friend WithEvents Kenarlar As ColumnHeader
     End Class
 End Namespace
